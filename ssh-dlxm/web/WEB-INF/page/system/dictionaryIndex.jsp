@@ -22,16 +22,18 @@
 		     document.getElementById("newddlText").innerHTML=textStr;
 		     
 		     
-		     Pub.submitActionWithForm('Form2','${pageContext.request.contextPath }/system/dictionaryEdit.jsp','Form1');
-		    
+		     <%--Pub.submitActionWithForm('Form2','${pageContext.request.contextPath }/system/dictionaryEdit.jsp','Form1');--%>
+		     Pub.submitActionWithForm('Form2','${pageContext.request.contextPath }/system/elecSystemDDLAction_edit.do','Form1');
+
 		  }else{
 		    
 		    var textStr="";
 		    document.getElementById("newtypename").innerHTML="";
 		    document.getElementById("newddlText").innerHTML=textStr;
 		     
-		    Pub.submitActionWithForm('Form2','${pageContext.request.contextPath }/system/dictionaryEdit.jsp','Form1');
-		  }  
+		    <%--Pub.submitActionWithForm('Form2','${pageContext.request.contextPath }/system/dictionaryEdit.jsp','Form1');--%>
+		    Pub.submitActionWithForm('Form2','${pageContext.request.contextPath }/system/elecSystemDDLAction_edit.do','Form1');
+		  }
 	   }
 	   
      function saveDict(){
@@ -139,7 +141,7 @@ function delTableRow(rowNum){
  </HEAD>
 		
 	<body>
-	 <Form name="Form1" id="Form1"  method="post" style="margin:0px;">
+	 <s:form name="Form1" id="Form1"  method="post" style="margin:0px;">
 		<table cellSpacing="1" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0">
 			<TBODY>
 				<tr>
@@ -166,7 +168,7 @@ function delTableRow(rowNum){
 			    <tr>
 			       <td class="ta_01" align="right" width="35%" id="newtypename">类型名称：</td>
 				   <td class="ta_01"  align="left" width="30%"  height=20 id="newddlText">
-				    <input type="text" name="keywordname" maxlength="25" size=24>	
+					   <s:textfield name="keywordname" maxlength="25" size="24"></s:textfield>
 				   </td>
 				   <td class="ta_01"  align="right" width="35%" ></td>
 				</tr>
@@ -177,33 +179,25 @@ function delTableRow(rowNum){
 				 </td></TR>   
 			</TBODY>
 		</table>
-		</Form>
+		</s:form>
 		
- <Form name="Form2" id="Form2"  method="post" style="margin:0px;">
+ <s:form name="Form2" id="Form2"  method="post" style="margin:0px;">
     <table cellSpacing="1" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0" >
     <tr>
      <td >
 	   <table cellspacing="0"   cellpadding="1" rules="all" bordercolor="gray" border="1" id="dictTbl"
 		    style="BORDER-RIGHT:gray 1px solid; BORDER-TOP:gray 1px solid; BORDER-LEFT:gray 1px solid; WIDTH:100%; WORD-BREAK:break-all; BORDER-BOTTOM:gray 1px solid; BORDER-COLLAPSE:collapse; BACKGROUND-COLOR:#f5fafe; WORD-WRAP:break-word">
-			
-		
-						
 				<tr style="FONT-WEIGHT:bold;FONT-SIZE:12pt;HEIGHT:25px;BACKGROUND-COLOR:#afd1f3">
 					<td class="ta_01" align="center"  width="20%" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">编号</td>
 					<td class="ta_01" align="center"  width="60%" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">名称</td>
 					<td class="ta_01" align="center"  width="20%" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">删除</td>					
 				</tr>
-			    
-			   
 			     <tr>
 				   <td class="ta_01" align="center"  width="20%">1</td>
 				   <td class="ta_01" align="center"  width="60%">
 				   <input name="itemname" type="text"  size="45" maxlength="25"></td>
 				   <td class="ta_01" align="center"  width="20%"></td>
 				</tr>
-	          
-	            
-			
 	     </table>
 	   </td>
 	 </tr>
@@ -225,7 +219,7 @@ function delTableRow(rowNum){
    
     
    
-  </Form>
+  </s:form>
   </body>
 </HTML>
 

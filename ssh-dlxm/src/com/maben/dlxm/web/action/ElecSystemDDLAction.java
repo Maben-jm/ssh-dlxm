@@ -24,4 +24,12 @@ public class ElecSystemDDLAction extends BaseAction<ElecSystemDDL>{
         return "home";
     }
 
+    public String edit(){
+        return "edit";
+    }
+
+    public String save(){
+        return "save";
+    }
+
 }
