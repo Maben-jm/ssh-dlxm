@@ -25,10 +25,14 @@ public class ElecSystemDDLAction extends BaseAction<ElecSystemDDL>{
     }
 
     public String edit(){
+        final String keyword = elecSystemDDL.getKeyword();
+        List<ElecSystemDDL> elecSystemDDLS = elecSystemDDLService.findElecSystemDDLSbykeyword(keyword);
+        request.setAttribute("list",elecSystemDDLS);
         return "edit";
     }
 
     public String save(){
+        elecSystemDDLService.save(elecSystemDDL);
         return "save";
     }
 

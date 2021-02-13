@@ -6,13 +6,13 @@
 
 <!--持久化对象与数据库表的映射-->
 <hibernate-mapping>
-    <class name="com.maben.dlxm.domain.ElecSystemDDL" table="Elec_Text">
+    <class name="com.maben.dlxm.domain.ElecSystemDDL" table="Elec_systemddl">
         <id name="seqID" type="integer">
             <column name="seqID"></column>
             <generator class="increment"></generator>
         </id>
         <property name="keyword" type="string" column="keyword"></property>
-        <property name="ddlCode" type="string" column="ddlCode"></property>
+        <property name="ddlCode" type="integer" column="ddlCode"></property>
         <property name="ddlName" type="string" column="ddlName"></property>
     </class>
 </hibernate-mapping>

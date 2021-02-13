@@ -84,7 +84,7 @@
 		        }	
 		    }
 		  }
-	      document.Form2.action="savedict.do";
+	      document.Form2.action="elecSystemDDLAction_save.do";
 	      document.Form2.submit();     
 	}    
   
@@ -181,7 +181,7 @@ function delTableRow(rowNum){
 		</table>
 		</s:form>
 		
- <s:form name="Form2" id="Form2"  method="post" style="margin:0px;">
+ <s:form namespace="/system" name="Form2" id="Form2"  method="post" cssStyle="margin:0px;">
     <table cellSpacing="1" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0" >
     <tr>
      <td >

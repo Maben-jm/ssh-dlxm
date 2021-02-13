@@ -4,11 +4,11 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!--连接数据库信息配置-->
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/dlxm?useUnicode=true&amp;characterEncoding=utf-8</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">123456</property>
+        <!--连接数据库信息配置 *** 改用c3p0数据源-->
+        <!--<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>-->
+        <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/dlxm?useUnicode=true&amp;characterEncoding=utf-8</property>-->
+        <!--<property name="hibernate.connection.username">root</property>-->
+        <!--<property name="hibernate.connection.password">123456</property>-->
         <!--配置hibernate其他配置-->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property><!--方言还是从hibernate核心包中找-->
         <property name="hibernate.show_sql">true</property>

@@ -30,11 +30,31 @@ public class ElecSystemDDL implements Serializable {
     /**
      * 数据项的code
      */
-    private String ddlCode;
+    private Integer ddlCode;
     /**
      * 数据项的value
      */
     private String ddlName;
+
+
+
+    /********************************存放非持久化javabean属性************************/
+    /**
+     *
+     *   存放数据类型
+     */
+    private String keywordname;
+    /**
+     * 用来判断处理业务逻辑的标识
+     * typeflag=new：表示新增一种数据类型
+     * typeflag=add：表示在已有的数据类型的基础上进行修改和编辑
+     */
+    private String typeflag;
+    /**
+     * 用来存放页面的数据项的值
+     */
+    private String [] itemname;
+    /********************************存放非持久化javabean属性************************/
 
 
 }
