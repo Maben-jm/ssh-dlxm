@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<!--持久化对象与数据库表的映射-->
+<hibernate-mapping>
+    <class name="com.maben.dlxm.domain.ElecCommonMsg" table="Elec_CommonMsg">
+        <id name="comID" type="string">
+            <column name="comID"></column>
+            <generator class="uuid"></generator>
+        </id>
+        <property name="stationRun" type="string" column="stationRun"></property>
+        <property name="devRun" type="string" column="devRun"></property>
+        <!--date只能精确到日，timestamp精确到时分秒-->
+        <property name="createDate" type="timestamp" column="createDate"></property>
+    </class>
+</hibernate-mapping>

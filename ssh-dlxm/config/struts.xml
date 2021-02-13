@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <!--配置struts后缀action变为do-->
+    <constant name="struts.action.extension" value="do"></constant>
+    <!--配置开发模式 **控制台会有日志错误日志产生-->
+    <constant name="struts.devMode" value="true"></constant>
+    <!--将struts2的UI主题改为简单-->
+    <constant name="struts.ui.theme" value="simple"></constant>
+    <package name="system" namespace="/system" extends="struts-default">
+        <action name="elecTextAction_*" class="elecTextAction" method="{1}">
+            <result name="success">/system/textAdd.jsp</result>
+        </action>
+        <!--系统登录-->
+        <action name="elecMenuAction_*" method="{1}" class="elecMenuAction">
+            <result name="home">/WEB-INF/page/menu/home.jsp</result>
+            <result name="title">/WEB-INF/page/menu/title.jsp</result>
+            <result name="left">/WEB-INF/page/menu/left.jsp</result>
+            <result name="change">/WEB-INF/page/menu/change.jsp</result>
+            <result name="loading">/WEB-INF/page/menu/loading.jsp</result>
+            <result name="alermDevice">/WEB-INF/page/menu/alermDevice.jsp</result>
+            <result name="alermStation">/WEB-INF/page/menu/alermStation.jsp</result>
+        </action>
+        <!--待办事宜-->
+        <action name="elecCommonMsgAction_*" class="elecCommonMsgAction" method="{1}">
+            <result name="home">/WEB-INF/page/system/actingIndex.jsp</result>
+            <!--n重定向到一个action-->
+            <result name="save" type="redirectAction">
+                <param name="namespace">/system</param>
+                <param name="actionName">elecCommonMsgAction_home.do</param>
+            </result>
+        </action>
+        <!--导出设置-->
+        <action name="elecExportFieldsAction_*" class="elecExportFieldsAction" method="{1}">
+            <result name="setExportExcel">/WEB-INF/page/system/exportExcel.jsp</result>
+            <result name="saveSetExportExcel">/close.jsp</result>
+        </action>
+    </package>
+</struts>
