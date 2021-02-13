@@ -302,8 +302,7 @@
 									
 									<TR>
 										<TD class="box05" onmouseover="backgroundColorChange(this,'white');" onmouseout="backgroundColorChange(this,'');">
-											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }
-    /WEB-INF/page/system/dictionaryIndex.jsp" target="mainFrame">数据字典维护</A>
+											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/system/elecSystemDDLAction_home.do" target="mainFrame">数据字典维护</A>
 										</TD>
 									</TR>
 									

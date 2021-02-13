@@ -37,5 +37,9 @@
             <result name="setExportExcel">/WEB-INF/page/system/exportExcel.jsp</result>
             <result name="saveSetExportExcel">/close.jsp</result>
         </action>
+        <!--数据字典-->
+        <action name="elecSystemDDLAction_*" class="elecSystemDDLAction" method="{1}">
+            <result name="home">/WEB-INF/page/system/dictionaryIndex.jsp</result>
+        </action>
     </package>
 </struts>
