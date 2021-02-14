@@ -4,6 +4,7 @@ import com.maben.dlxm.dao.ElecUserDao;
 import com.maben.dlxm.domain.ElecUser;
 import com.maben.dlxm.service.ElecSystemDDLService;
 import com.maben.dlxm.service.ElecUserService;
+import com.maben.dlxm.util.MD5keyBean;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -48,7 +49,7 @@ public class ElecUserServiceImpl implements ElecUserService {
             return;
         }
         //对密码进行md5的处理
-//        this.logonPwdByMd5(elecUser);
+        this.logonPwdByMd5(elecUser);
         if (StringUtils.isBlank(elecUser.getUserID())) {
             elecUser.setCreateDate(new Date());
             elecUser.setLastDate(new Date());
@@ -89,26 +90,26 @@ public class ElecUserServiceImpl implements ElecUserService {
     /**
      * 使用md5技术对密码进行加密
      */
-//    private void logonPwdByMd5(ElecUser elecUser) {
-//        String logonPwd = elecUser.getLogonPwd();//加密前
-//        String md5LogonPwd = "";//加密后
-//        //如果密码不填写，设置默认密码为000000
-//        if (StringUtils.isBlank(logonPwd)) {
-//            logonPwd = "000000";
-//        }
-//        //获取md5flag，用来判断是否对密码进行加密
-//        String md5flag = elecUser.getMd5flag();
-//        //此时不需要对密码进行加密
-//        if (md5flag != null && md5flag.equals("1")) {
-//            md5LogonPwd = logonPwd;
-//        } else {
-//            //对密码进行加密
-//            MD5keyBean bean = new MD5keyBean();
-//            md5LogonPwd = bean.getkeyBeanofStr(logonPwd);
-//        }
-//        //将加密后的密码放置到对象中
-//        elecUser.setLogonPwd(md5LogonPwd);
-//    }
+    private void logonPwdByMd5(ElecUser elecUser) {
+        String logonPwd = elecUser.getLogonPwd();//加密前
+        String md5LogonPwd = "";//加密后
+        //如果密码不填写，设置默认密码为000000
+        if (StringUtils.isBlank(logonPwd)) {
+            logonPwd = "000000";
+        }
+        //获取md5flag，用来判断是否对密码进行加密
+        String md5flag = elecUser.getMd5flag();
+        //此时不需要对密码进行加密
+        if (md5flag != null && md5flag.equals("1")) {
+            md5LogonPwd = logonPwd;
+        } else {
+            //对密码进行加密
+            MD5keyBean bean = new MD5keyBean();
+            md5LogonPwd = bean.getkeyBeanofStr(logonPwd);
+        }
+        //将加密后的密码放置到对象中
+        elecUser.setLogonPwd(md5LogonPwd);
+    }
 
     /**
      * 对用户信息中数据字典的值的转换

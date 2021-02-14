@@ -79,10 +79,16 @@
 			theForm.remark.focus();
 			return false; 
         }
-		 
-		 
-	   document.Form1.action="elecUserAction_save.do";
-	   document.Form1.submit();
+		//判断在编辑页面是否对密码进行了加密
+		var logonPwd = document.getElementById("logonPwd").value;//当前密码输入框输入的当前值
+		var defaultLogonPwd = document.getElementById("logonPwd").defaultValue;//当前密码输入框输入的默认值（初始值）
+		console.log(logonPwd+"       "+defaultLogonPwd);
+		//此时表示没有修改密码，不需要对密码进行加密
+		if(logonPwd==defaultLogonPwd){
+			document.getElementById("md5flag").value="1";
+		}
+		document.Form1.action="elecUserAction_save.do";
+		document.Form1.submit();
 	  	
 	}
 	
@@ -109,6 +115,7 @@
 		</td>
     </tr>
 		<s:hidden name="userID"></s:hidden>
+		<s:hidden name="md5flag" id="md5flag"></s:hidden>
      <tr>
          <td align="center" bgColor="#f5fafe" class="ta_01">登&nbsp;&nbsp;录&nbsp;&nbsp;名：
          <td class="ta_01" bgColor="#ffffff">
@@ -142,7 +149,7 @@
 	<tr>
 		<td align="center" bgColor="#f5fafe" class="ta_01">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
 		<td class="ta_01" bgColor="#ffffff">
-			<s:password name="logonPwd" maxlength="25" size="22" showPassword="true"></s:password>
+			<s:password name="logonPwd" id="logonPwd" maxlength="25" size="22" showPassword="true"></s:password>
 		</td>
 		<td align="center" bgColor="#f5fafe" class="ta_01">确认密码：</td>
 		<td class="ta_01" bgColor="#ffffff">

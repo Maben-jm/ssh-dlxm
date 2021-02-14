@@ -121,12 +121,6 @@ public class ElecUser implements Serializable {
      */
     private String viewflag;
 
-    public String getViewflag() {
-        return viewflag;
-    }
-    public void setViewflag(String viewflag) {
-        this.viewflag = viewflag;
-    }
     /**用于使用struts2的ajax进行对用户名的校验，使用message用来存放返回结果*/
     private String message;
 
