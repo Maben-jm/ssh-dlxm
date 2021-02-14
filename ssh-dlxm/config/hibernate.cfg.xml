@@ -18,5 +18,6 @@
         <mapping resource="com/maben/dlxm/domain/ElecCommonMsg.hbm.xml"/>
         <mapping resource="com/maben/dlxm/domain/ElecExportFields.hbm.xml"/>
         <mapping resource="com/maben/dlxm/domain/ElecSystemDDL.hbm.xml"/>
+        <mapping resource="com/maben/dlxm/domain/ElecUser.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

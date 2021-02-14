@@ -1,10 +1,9 @@
-
 <%@ page language="java" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="s" uri="/struts-tags" %>
 
  <script language="javascript"> 
-	function returnMethod(){
-		return confirm("你确定要删除  孙鸿洋？");
+	function returnMethod(userName){
+		return confirm("你确定要删除  "+userName+"？");
 	}
   </script>
 
@@ -16,7 +15,7 @@
 	</HEAD>
 		
 	<body >
-		<form id="Form1" name="Form1" action="/system/userAction_main.do" method="post" style="margin:0px;"> 
+		<s:form id="Form1" name="Form1" namespace="/system" action="elecUserAction_home.do" method="post" style="margin:0px;">
 			<table cellspacing="1" cellpadding="0" width="90%" align="center" bgcolor="#f5fafe" border="0">
 				<TR height=10><td></td></TR>
 				<tr>
@@ -29,11 +28,12 @@
 					<td class="ta_01" align="center" bgcolor="#f5fafe" height="22">
 					姓名：</td>
 					<td class="ta_01" >
-					<input name="userName" type="text" id="userName"  size="21"><font face="宋体" color="red">
-					</font></td>
+						<s:textfield name="userName" id="userName" size="21"></s:textfield>
+						<font face="宋体" color="red"></font>
+					</td>
 				</tr>
 		    </table>	
-		</form>
+		</s:form>
 
 
 
@@ -52,10 +52,8 @@
 			             </TABLE>
                    </td>
 					<td class="ta_01" align="right">
-					    <input style="font-size:12px; color:black; height=20;width=80" id="BT_Add" type="button" value="查询" name="BT_find" 
-						 onclick="document.forms[0].submit()">&nbsp;&nbsp;
-						<input style="font-size:12px; color:black; height=20;width=80" id="BT_Add" type="button" value="添加用户" name="BT_Add" 
-						 onclick="openWindow('userAdd.jsp','700','400')">&nbsp;&nbsp;
+					    <input style="font-size:12px; color:black; height:20px;width:80px" id="BT_find" type="button" value="查询" name="BT_find"  onclick="document.forms[0].submit()">&nbsp;&nbsp;
+						<input style="font-size:12px; color:black; height:20px;width:80px" id="BT_Add" type="button" value="添加用户" name="BT_Add" onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_add.do','700','400')">&nbsp;&nbsp;
 					</td>
 				</tr>
 					
@@ -76,48 +74,46 @@
 								<td width="10%" align="center" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">删除</td>
 							</tr>
 							
-							
-								
+							<s:if test="#request.list!=null && #request.list.size()>0">
+								<s:iterator value="#request.list" var="item">
 									<tr onmouseover="this.style.backgroundColor = 'white'" onmouseout="this.style.backgroundColor = '#F5FAFE';">
-										
+
 										<td style="HEIGHT:22px" align="center" width="20%">
-											liuyang
+											<s:property value="%{#item.logonName}"></s:property>
 										</td>
 										<td style="HEIGHT:22px" align="center" width="20%">
-											张三
+											<a href="#" onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_edit.do?userID=<s:property value="%{#item.userID}"/>&viewflag=1','700','400');">
+												<s:property value="%{#item.userName}"></s:property>
+											</a>
 										</td>
 										<td style="HEIGHT:22px" align="center" width="10%">
-											男
+											<s:property value="%{#item.sexID}"></s:property>
 										</td>
 										<td style="HEIGHT:22px" align="center" width="20%">
-											88888888
-										</td>									
+											<s:property value="%{#item.contactTel}"></s:property>
+										</td>
 										<td style="HEIGHT:22px" align="center" width="10%">
-											是
+											<s:property value="%{#item.isDuty}"></s:property>
 										</td>
-										
-										<td align="center" style="HEIGHT: 22px" align="center" width="10%">																	
-										   <a href="#" onclick="openWindow('userEdit.jsp?userID=ff808081110677790111070ccffe0001','700','400');">
-										   <img src="${pageContext.request.contextPath }/images/edit.gif" border="0" style="CURSOR:hand"></a>													
-										</td>
-										
+
 										<td align="center" style="HEIGHT: 22px" align="center" width="10%">
-											<a href="removeuser.do?userID=ff808081110677790111070ccffe0001" onclick="return returnMethod()">
-											<img src="${pageContext.request.contextPath }/images/delete.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>												
+											<a href="#" onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_edit.do?userID=<s:property value="%{#item.userID}"></s:property>','700','400');">
+												<img src="${pageContext.request.contextPath }/images/edit.gif" border="0" style="CURSOR:hand"></a>
+										</td>
+
+										<td align="center" style="HEIGHT: 22px" align="center" width="10%">
+											<a href="${pageContext.request.contextPath }/system/elecUserAction_delete.do?userID=<s:property value="%{#item.userID}"></s:property>" onclick="return returnMethod('<s:property value="%{#item.userName}"></s:property>')">
+												<img src="${pageContext.request.contextPath }/images/delete.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
 										</td>
 									</tr>
-									
-								
-						</table>					
-						
+								</s:iterator>
+							</s:if>
+						</table>
 					</td>
 				</tr>        
 			</TBODY>
 		</table>
 		</form>
-
-
-
 
 	</body>
 </HTML>

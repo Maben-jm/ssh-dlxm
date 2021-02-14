@@ -12,4 +12,6 @@ public interface ElecSystemDDLService {
     List<ElecSystemDDL> findElecSystemDDLSbykeyword(String keyword);
 
     void save(ElecSystemDDL elecSystemDDL);
+
+    String findDdlNameByKeywordAndDdlCode(String keyword, Integer ddlCode);
 }

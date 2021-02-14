@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<!--持久化对象与数据库表的映射-->
+<hibernate-mapping>
+    <!--
+        CREATE TABLE Elec_User(
+            UserID VARCHAR(50)  NOT NULL, #主键ID
+            JctID VARCHAR(50)   NULL,     #所属单位code
+            UserName VARCHAR(50)   NULL,  #用户姓名
+            LogonName VARCHAR(50)   NULL, #登录名
+            LogonPwd VARCHAR(50)  NULL,   #密码#
+            SexID VARCHAR(10)  NULL,      #性别
+            Birthday DATETIME NULL,       #出生日期
+            Address VARCHAR(100)  NULL,    #联系地址
+            ContactTel VARCHAR(50)  NULL, #联系电话
+            Email VARCHAR(50)  NULL,      #电子邮箱
+            Mobile VARCHAR(50)  NULL,     #手机
+            IsDuty VARCHAR(10)  NULL,     #是否在职
+            OnDutyDate DATETIME NULL,     #入职时间
+            OffDutyDate DATETIME NULL,    #离职时间
+            remark VARCHAR(500)  NULL   #备注
+            #IsDelete VARCHAR(10)   NULL,  #是否删除
+            #CreateEmpID VARCHAR(50)  NULL,#创建人ID
+            #CreateDate DATETIME NULL,     #创建时间
+            #LastEmpID VARCHAR(50)  NULL,  #修改人ID
+            #LastDate DATETIME NULL        #修改时间
+        )
+    -->
+    <class name="com.maben.dlxm.domain.ElecUser" table="Elec_User">
+        <id name="userID" type="string">
+            <column name="userID"></column>
+            <generator class="uuid"></generator>
+        </id>
+        <property name="jctID" type="string" column="jctID"></property>
+        <property name="userName" type="string" column="userName"></property>
+        <property name="logonName" type="string" column="logonName"></property>
+        <property name="logonPwd" type="string" column="logonPwd"></property>
+        <property name="sexID" type="string" column="sexID"></property>
+        <property name="birthday" type="date" column="birthday"></property>
+        <property name="address" type="string" column="address"></property>
+        <property name="contactTel" type="string" column="contactTel"></property>
+        <property name="email" type="string" column="email"></property>
+        <property name="isDuty" type="string" column="isDuty"></property>
+        <property name="onDutyDate" type="date" column="onDutyDate"></property>
+        <property name="offDutyDate" type="date" column="offDutyDate"></property>
+        <property name="remark" type="string" column="remark"></property>
+        <property name="isDelete" type="string" column="isDelete"></property>
+        <property name="createEmpID" type="string" column="createEmpID"></property>
+        <property name="createDate" type="date" column="createDate"></property>
+        <property name="lastEmpID" type="string" column="lastEmpID"></property>
+        <property name="lastDate" type="date" column="lastDate"></property>
+    </class>
+</hibernate-mapping>

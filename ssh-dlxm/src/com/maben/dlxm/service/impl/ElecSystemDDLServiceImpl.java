@@ -79,6 +79,32 @@ public class ElecSystemDDLServiceImpl implements ElecSystemDDLService {
         }
     }
 
+    /**
+     * 使用数据类型和数据项的编号，获取数据项的值
+     * */
+    @Override
+    public String findDdlNameByKeywordAndDdlCode(String keyword, Integer ddlCode) {
+        String condition = "";
+        List<Object> paramsList = new ArrayList<Object>();
+        if(StringUtils.isNotBlank(keyword)){
+            condition += " and o.keyword=?";
+            paramsList.add(keyword);
+        }
+        if(ddlCode!=null){
+            condition += " and o.ddlCode=?";
+            paramsList.add(ddlCode);
+        }
+        Object [] params = paramsList.toArray();
+        List<ElecSystemDDL> list = elecSystemDDLDao.findCollectionByConditionNoPage(condition, params, null);
+        //数据项的值
+        String ddlName = "";
+        if(list!=null && list.size()>0){
+            ElecSystemDDL elecSystemDDL = list.get(0);
+            ddlName = elecSystemDDL.getDdlName();
+        }
+        return ddlName;
+    }
+
     private List<ElecSystemDDL> systemDDLPOListToVOList(List list) {
         List<ElecSystemDDL> result = new ArrayList<>();
         if (Objects.isNull(list) || list.size() == 0) {
