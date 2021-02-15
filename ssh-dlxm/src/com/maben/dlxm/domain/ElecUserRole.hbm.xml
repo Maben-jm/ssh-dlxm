@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<!--持久化对象与数据库表的映射-->
+<hibernate-mapping>
+    <!--
+    /**
+     * CREATE TABLE Elec_User_Role(
+     * SeqID INT NOT NULL,               #主键ID
+     * UserID VARCHAR(50)   NULL,        #用户ID
+     * RoleID VARCHAR(50)   NULL,        #角色ID
+     * remark VARCHAR(5000)  NULL      #备注
+     * #CreateEmpCode VARCHAR(50)  NULL,  #创建人
+     * #CreateDate DATETIME NULL          #创建时间
+     * )
+     */
+    -->
+    <class name="com.maben.dlxm.domain.ElecUserRole" table="Elec_User_Role">
+        <id name="seqID" type="integer">
+            <column name="seqID"></column>
+            <generator class="increment"></generator>
+        </id>
+        <property name="userID" type="string" column="userID"></property>
+        <property name="roleID" type="string" column="roleID"></property>
+        <property name="remark" type="string" column="remark"></property>
+        <property name="createEmpCode" type="string" column="createEmpCode"></property>
+        <property name="createDate" type="java.util.Date" column="createDate"></property>
+    </class>
+</hibernate-mapping>

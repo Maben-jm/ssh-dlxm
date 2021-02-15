@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<!--持久化对象与数据库表的映射-->
+<hibernate-mapping>
+    <!--
+    /**
+     * CREATE TABLE Elec_Popedom(
+     * CODE VARCHAR(500)   NULL,          #权限Code（主键ID）
+     * NAME VARCHAR(500)   NULL,          #权限名称
+     * ParentCode VARCHAR(500)  NULL,     #父级权限Code
+     * ParentName VARCHAR(500)  NULL,     #父级权限名称
+     * Url VARCHAR(5000)   NULL           #权限访问的允许访问的URL连接
+     * )
+     */
+    -->
+    <class name="com.maben.dlxm.domain.ElecPopedom" table="Elec_Popedom">
+        <id name="code" type="string">
+            <column name="code"></column>
+            <generator class="assigned"></generator>
+        </id>
+        <property name="name" type="string" column="name"></property>
+        <property name="parentCode" type="string" column="parentCode"></property>
+        <property name="parentName" type="string" column="parentName"></property>
+        <property name="url" type="string" column="url"></property>
+    </class>
+</hibernate-mapping>

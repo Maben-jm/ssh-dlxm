@@ -2,6 +2,7 @@ package com.maben.dlxm.dao.impl;
 
 import com.maben.dlxm.dao.CommonDao;
 import com.maben.dlxm.util.GenericSuperClass;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -48,7 +49,7 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements CommonDao<T
         String hql = "FROM  " + aClass.getName() + " o where 1=1 ";
 //        拼装hql语句
         String orderCondition = getOrderCondition(order);
-        final String finalHql = hql + condition + orderCondition;
+        final String finalHql = StringUtils.isBlank(condition)? hql + orderCondition : hql + condition + orderCondition;
 //        方法一：直接使用template方法返回
 //        final List list = this.getHibernateTemplate().find(hql, params);
 //        方法二：调用回调函数返回（主要是写SQL语句时用到了）

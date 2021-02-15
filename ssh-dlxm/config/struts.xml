@@ -63,5 +63,9 @@
                 <param name="root">message</param>
             </result>
         </action>
+        <!--角色管理-->
+        <action name="elecRoleAction_*" class="elecRoleAction" method="{1}">
+            <result name="home">/WEB-INF/page/system/roleIndex.jsp</result>
+        </action>
     </package>
 </struts>
