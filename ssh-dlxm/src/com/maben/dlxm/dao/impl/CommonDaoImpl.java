@@ -68,6 +68,27 @@ public class CommonDaoImpl<T> extends HibernateDaoSupport implements CommonDao<T
         });
         return list;
     }
+    @Override
+    public List<T> findCollectionByConditionNoPageWithCache(String condition, Object[] params, Map<String, String> order) {
+        String hql = "FROM  " + aClass.getName() + " o where 1=1 ";
+        String orderCondition = getOrderCondition(order);
+        final String finalHql = StringUtils.isBlank(condition)? hql + orderCondition : hql + condition + orderCondition;
+        final List list = this.getHibernateTemplate().execute(new HibernateCallback<List>() {
+            @Override
+            public List doInHibernate(Session session) throws HibernateException, SQLException {
+//                session.createSQLQuery()  //这里是写SQL语句的 ！！！！！！！
+                Query query = session.createQuery(finalHql);
+                if (Objects.nonNull(params) && params.length>0){
+                    for (int i = 0; i < params.length; i++) {
+                        query.setParameter(i,params[i]);
+                    }
+                }
+                query.setCacheable(true);
+                return query.list();
+            }
+        });
+        return list;
+    }
 
     private String getOrderCondition(Map<String, String> order) {
         if (Objects.isNull(order) || order.isEmpty()) {

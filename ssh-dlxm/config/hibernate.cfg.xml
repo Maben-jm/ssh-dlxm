@@ -9,10 +9,32 @@
         <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/dlxm?useUnicode=true&amp;characterEncoding=utf-8</property>-->
         <!--<property name="hibernate.connection.username">root</property>-->
         <!--<property name="hibernate.connection.password">123456</property>-->
+
+        <!--
+            方法：添加hibernate的二级缓存
+            目的：用于处理数据字典的查询
+            配置文件：默认配置文件ehcache.xml
+            注意：
+                1：需要开启查询缓存 默认是false
+                2：需要开启二级缓存 默认是false
+                3：需要对具体的mapping操作设置
+                4：需要创建ehcache.xml文件
+                5：需要将查出的结果放到缓存中 （***query.setCacheable(true)***）
+                6: 查询缓存只支持hql语句，SQL语句不支持！！！
+        -->
+        <!--开启查询缓存-->
+        <property name="hibernate.cache.use_query_cache">true</property>
+        <!--开启二级缓存-->
+        <property name="hibernate.cache.use_second_level_cache">true</property>
+        <!--提供二级缓存供应商 **** 除此之外还需要针对mapping文件指定二级缓存-->
+        <property name="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</property>
+
+
         <!--配置hibernate其他配置-->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property><!--方言还是从hibernate核心包中找-->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property><!--create：每次都创建；none：不操作；update：有就不操作，没有就创建-->
+
         <!--加载映射文件-->
         <mapping resource="com/maben/dlxm/domain/ElecText.hbm.xml"/>
         <mapping resource="com/maben/dlxm/domain/ElecCommonMsg.hbm.xml"/>
@@ -22,5 +44,11 @@
         <mapping resource="com/maben/dlxm/domain/ElecPopedom.hbm.xml"/>
         <mapping resource="com/maben/dlxm/domain/ElecRolePopedom.hbm.xml"/>
         <mapping resource="com/maben/dlxm/domain/ElecUserRole.hbm.xml"/>
+
+
+        <!--二级缓存 针对类的 （必须放到mapping下面）-->
+        <class-cache class="com.maben.dlxm.domain.ElecSystemDDL" usage="read-write"></class-cache>
+        <!--二级缓存 针对类中集合的 （必须放到mapping下面） -->
+        <!--<collection-cache collection="com.maben.dlxm.domain.Student.hobbys" usage="read-write"></collection-cache>-->
     </session-factory>
 </hibernate-configuration>

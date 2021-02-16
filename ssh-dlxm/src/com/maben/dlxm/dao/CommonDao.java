@@ -11,4 +11,6 @@ public interface CommonDao<T> {
     public List<T> findCollectionByConditionNoPage(String condition, Object[] params, Map<String,String> order);
     public void deleteObjectByIds(Serializable... ids);
     public void deleteObjectByCollection(List<T> list);
+
+    List<T> findCollectionByConditionNoPageWithCache(String condition, Object[] array, Map<String, String> order);
 }

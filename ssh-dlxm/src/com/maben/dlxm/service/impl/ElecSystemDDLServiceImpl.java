@@ -39,7 +39,7 @@ public class ElecSystemDDLServiceImpl implements ElecSystemDDLService {
         final Map<String,String> order = new LinkedHashMap<>();
         order.put(" o.ddlCode ","asc");
 //        获取数据
-        List<ElecSystemDDL> list = elecSystemDDLDao.findCollectionByConditionNoPage(condition, params.toArray(), order);
+        List<ElecSystemDDL> list = elecSystemDDLDao.findCollectionByConditionNoPageWithCache(condition, params.toArray(), order);
         return list;
     }
 
@@ -95,7 +95,7 @@ public class ElecSystemDDLServiceImpl implements ElecSystemDDLService {
             paramsList.add(ddlCode);
         }
         Object [] params = paramsList.toArray();
-        List<ElecSystemDDL> list = elecSystemDDLDao.findCollectionByConditionNoPage(condition, params, null);
+        List<ElecSystemDDL> list = elecSystemDDLDao.findCollectionByConditionNoPageWithCache(condition, params, null);
         //数据项的值
         String ddlName = "";
         if(list!=null && list.size()>0){

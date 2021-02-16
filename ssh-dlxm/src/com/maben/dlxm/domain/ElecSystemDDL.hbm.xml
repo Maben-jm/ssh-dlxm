@@ -7,6 +7,8 @@
 <!--持久化对象与数据库表的映射-->
 <hibernate-mapping>
     <class name="com.maben.dlxm.domain.ElecSystemDDL" table="Elec_systemddl">
+        <!--开启二级缓存 ** 在这里我们都放到hibernate的主配置文件中方便管理-->
+        <!--<cache usage="read-write"></cache>-->
         <id name="seqID" type="integer">
             <column name="seqID"></column>
             <generator class="increment"></generator>
