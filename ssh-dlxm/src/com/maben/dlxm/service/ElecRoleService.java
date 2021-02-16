@@ -16,4 +16,6 @@ public interface ElecRoleService {
     List<ElecUser> findUsersByRoleId(String roleID);
 
     void saveRole(ElecUserRole elecUserRole);
+
+    List<ElecPopedom> findPopedomListByRoleID(String roleID);
 }

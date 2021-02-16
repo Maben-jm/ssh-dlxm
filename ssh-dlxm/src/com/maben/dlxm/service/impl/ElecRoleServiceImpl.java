@@ -91,6 +91,34 @@ public class ElecRoleServiceImpl implements ElecRoleService {
         this.saveUserRole(roleID,selectuser);
     }
 
+    public List<ElecPopedom> findPopedomListByRoleID(String roleID) {
+        //1：查询系统中所有的功能权限，因为页面要显示所有的功能权限（没有设置flag集合）
+        List<ElecPopedom> list = this.findAllPopedom();
+        //2：获取传递角色ID，查询角色权限关联表，获取当前角色所具有的权限
+        ElecRolePopedom elecRolePopedom = elecRolePopedomDao.findObjectById(roleID);
+        String popedom = "";//当前角色具有的权限的字符串
+        if(elecRolePopedom!=null){
+            popedom = elecRolePopedom.getPopedomcode();
+        }
+        /**
+         * 用当前角色具有的权限和系统中所有的功能权限进行匹配（在权限表中设置flag字段）
+         *    	* 如果系统中所有的权限包含了当前角色具有的权限，此时页面的复选框要被选中（flag=1）
+         * 如果系统中所有的权限没有包含当前角色具有的权限，此时页面的复选框不能被选中（flag=2）
+         */
+        if(list!=null && list.size()>0){
+            for(int i=0;i<list.size();i++){
+                ElecPopedom elecPopedom = list.get(i);
+                if(popedom.contains(elecPopedom.getCode())){
+                    elecPopedom.setFlag("1");
+                }
+                else{
+                    elecPopedom.setFlag("2");
+                }
+            }
+        }
+        return list;
+    }
+
     /**一：保存角色权限关联表*/
     private void saveRolePopedom(String roleID, String[] selectoper) {
         //组织PO对象，权限集合的字符串形式aa@ab...
