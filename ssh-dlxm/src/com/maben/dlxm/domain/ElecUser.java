@@ -132,7 +132,12 @@ public class ElecUser implements Serializable {
     private String md5flag;
 
 
-
+    /**
+     * flag:用来判断用户的复选框是否被选中
+     *   * 如果系统中所有的用户包含了当前角色拥有的用户，此时页面的复选框要被选中，设置flag=1
+     *   * 如果系统中所有的用户没有包含当前角色拥有的用户，此时页面的复选框不能被选中，设置flag=2
+     */
+    private String flag;
 
 
     /**************************非持久化javabean的属性**********************************/

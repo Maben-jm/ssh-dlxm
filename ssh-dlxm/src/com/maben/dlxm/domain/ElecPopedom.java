@@ -18,4 +18,11 @@ public class ElecPopedom {
     private String parentCode;//    #父级权限Code
     private String parentName;//    #父级权限名称
     private String url;//           #权限访问的允许访问的URL连接
+
+    /**
+     * flag:用来判断权限的复选框是否被选中
+     *   * 如果系统中所有的权限包含了当前角色具有的权限，此时页面的复选框要被选中，设置flag=1
+     *   * 如果系统中所有的权限没有包含当前角色具有的权限，此时页面的复选框不能被选中，设置flag=2
+     */
+    private String flag;
 }

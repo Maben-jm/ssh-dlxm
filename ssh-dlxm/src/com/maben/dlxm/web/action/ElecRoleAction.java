@@ -1,6 +1,7 @@
 package com.maben.dlxm.web.action;
 
 import com.maben.dlxm.domain.ElecPopedom;
+import com.maben.dlxm.domain.ElecUser;
 import com.maben.dlxm.domain.ElecUserRole;
 import com.maben.dlxm.service.ElecRoleService;
 import com.maben.dlxm.service.ElecSystemDDLService;
@@ -30,9 +31,19 @@ public class ElecRoleAction extends BaseAction<ElecUserRole>{
 //        加载角色类型select
         request.setAttribute("roleList", elecSystemDDLService.findElecSystemDDLSbykeyword("角色类型"));
 //        加载所有权限选项
-        List<ElecPopedom> popedomList = elecRoleService.findAllPopedom();
-        this.handlePopedomList(popedomList,request);
+        List<ElecPopedom> popedoms = elecRoleService.findAllPopedom();
+        this.handlePopedomList(popedoms,request);
         return "home";
+    }
+
+    public String edit(){
+        final String roleID = request.getParameter("roleID");
+        System.out.println(roleID);
+        final List<ElecPopedom> popedoms = elecRoleService.findPopedomByRoleId(roleID);
+        this.handlePopedomList(popedoms,request);
+        final List<ElecUser> users = elecRoleService.findUsersByRoleId(roleID);
+        request.setAttribute("userList", users);
+        return "edit";
     }
 
     private void handlePopedomList(List<ElecPopedom> popedomList, HttpServletRequest request) {

@@ -19,10 +19,10 @@
        function selectRole(){
           if(document.Form1.roleID.value=="0"){
           
-             document.Form1.action="roleIndex.jsp";
+             document.Form1.action="elecRoleAction_home.do";
              document.Form1.submit();            
           }else{
-            Pub.submitActionWithForm('Form2','./roleEdit.jsp','Form1');
+            Pub.submitActionWithForm('Form2','elecRoleAction_edit.do','Form1');
           }
        }
 	   function checkAllOper(oper){
@@ -61,7 +61,7 @@
 	</HEAD>
 		
 <body>
- <s:form name="Form1" id="Form1"  method="post" style="margin:0px;">
+ <s:form name="Form1" namespace="/system" id="Form1"  method="post" cssStyle="margin:0px;">
 		<table cellSpacing="1" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0">
 			<TBODY>
 				<tr>
@@ -95,36 +95,35 @@
 
 <s:form  name="Form2" id="Form2"  method="post" style="margin:0px;">
  
-  <table cellSpacing="1" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0">
- <tr>
-  <td>
-   <fieldset style="width:100%; border : 1px solid #73C8F9;text-align:left;COLOR:#023726;FONT-SIZE: 12px;"><legend align="left">权限分配</legend>
- 
-     <table cellSpacing="0" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0">			 
-			  <tr>
-				 <td class="ta_01" colspan=2 align="left" width="100%" >
-					 <br><br/>
-					 <s:iterator value="#request.popedoms" id="column">
-						 <s:iterator begin="%{key.length()}" end='%{#request.maxLength}' step="1">
-							 &nbsp;&nbsp;
-						 </s:iterator>
-						 <s:property value="key"/>:
-						 <s:iterator value="value" var="item">
-							 <input type="checkbox"  name="selectoper" value="<s:property value="%{#item.code}"/>" >
-							 <s:property value="%{#item.name}"/>
-						 </s:iterator>
-						 <br/>
-					 </s:iterator>
+<table cellSpacing="1" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0">
+	<tr>
+		<td>
+			<fieldset style="width:100%; border : 1px solid #73C8F9;text-align:left;COLOR:#023726;FONT-SIZE: 12px;"><legend align="left">权限分配</legend>
 
+				<table cellSpacing="0" cellPadding="0" width="90%" align="center" bgColor="#f5fafe" border="0">
+				  <tr>
+					 <td class="ta_01" colspan=2 align="left" width="100%" >
+						 <br><br/>
+						 <s:iterator value="#request.popedoms" id="column">
+							 <s:iterator begin="%{key.length()}" end='%{#request.maxLength}' step="1">
+								 &nbsp;&nbsp;
+							 </s:iterator>
+							 <s:property value="key"/>:
+							 <s:iterator value="value" var="item">
+								 <input type="checkbox"  name="selectoper" value="<s:property value="%{#item.code}"/>" >
+								 <s:property value="%{#item.name}"/>
+							 </s:iterator>
+							 <br/>
+						 </s:iterator>
+					 </td>
+					</tr>
+					 <input type="hidden" name="roleID" >
+			</table>
 
-				 </td>
-				</tr>						
-				 <input type="hidden" name="roleID" >						
-		 </table>	
-        </fieldset>
-	  </td>
-	 </tr>					
-  </table>
+			</fieldset>
+		</td>
+	</tr>
+</table>
 		    				    
 	</s:form>
 	</body>
