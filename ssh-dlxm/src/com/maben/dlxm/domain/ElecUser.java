@@ -139,6 +139,14 @@ public class ElecUser implements Serializable {
      */
     private String flag;
 
+    /**
+     * roleflag:用来判断当前是系统管理员操作编辑，还是非系统管理员操作编辑
+     *   如果roleflag=null：使用系统管理员操作编辑用户的功能，
+     *                     如果是系统管理员操作编辑的功能，当保存时执行跳转的页面是close.jsp，此时操作是关闭子页面，刷新父页面
+     *   如果roleflag=1：使用非系统管理员操作编辑用户的功能，
+     *                  如果是非系统管理员操作编辑的功能，当保存的时候执行跳转的页面是userEdit.jsp，此时操作的继续编辑
+     */
+    private String roleflag;
 
     /**************************非持久化javabean的属性**********************************/
 

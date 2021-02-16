@@ -36,12 +36,20 @@ public class ElecUserAction extends BaseAction<ElecUser> {
 
     public String save() {
         elecUserService.save(elecUser);
+        //获取判断的标识roleflag
+        String roleflag = elecUser.getRoleflag();
+        if(roleflag!=null && roleflag.equals("1")){
+            //跳转到userEdit.jsp
+            return edit();
+        }
+        //跳转到close.jsp
         return "save";
     }
 
     public String edit() {
         ElecUser result = elecUserService.findUserById(elecUser.getUserID());
         result.setViewflag(elecUser.getViewflag());
+        result.setRoleflag(elecUser.getRoleflag());
 //        将之前的栈顶对象去除
         ServletActionContext.getContext().getValueStack().pop();
 //        将最新的对象放入栈顶对象

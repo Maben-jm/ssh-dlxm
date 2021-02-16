@@ -124,6 +124,22 @@ public class ElecMenuAction extends BaseAction<MenuForm> {
     }
 
     public String left() {
+        //获取系统中的角色,Hashtable<String,String>,key表示角色id,value表示角色名称
+        Hashtable<String, String> ht = (Hashtable<String, String>) request.getSession().getAttribute("globle_role");
+        //获取系统中的用户
+        ElecUser elecUser = (ElecUser) request.getSession().getAttribute("globle_user");
+        //定义需要访问的连接
+        String url = "";
+        //如果是系统管理员，操作用户管理的连接url是${pageContext.request.contextPath }/system/elecUserAction_home.do
+        if(ht.containsKey("1")){
+            url = request.getContextPath() + "/system/elecUserAction_home.do";
+        }
+        //如果不是系统管理员，操作用户管理的连接url是${pageContext.request.contextPath }/system/elecUserAction_edit.do
+        else{
+            url = request.getContextPath() + "/system/elecUserAction_edit.do?userID="+elecUser.getUserID()+"&roleflag=1";
+        }
+        //将rul放置到request中
+        request.setAttribute("url", url);
         return "left";
     }
 
