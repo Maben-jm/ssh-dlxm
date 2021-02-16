@@ -2,6 +2,7 @@ package com.maben.dlxm.service;
 
 import com.maben.dlxm.domain.ElecUser;
 
+import java.util.Hashtable;
 import java.util.List;
 
 public interface ElecUserService {
@@ -16,4 +17,10 @@ public interface ElecUserService {
     void deleteUserById(String userID);
 
     String findMessageByLogonName(String logonName);
+
+    ElecUser findUserByLogonName(String name);
+
+    Hashtable<String, String> findRoleByLogonName(String name);
+
+    String findPopedomByLogonName(String name);
 }

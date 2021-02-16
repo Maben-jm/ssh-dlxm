@@ -17,6 +17,7 @@
         </action>
         <!--系统登录-->
         <action name="elecMenuAction_*" method="{1}" class="elecMenuAction">
+            <result name="logout">/WEB-INF/page/menu/index.jsp</result>
             <result name="home">/WEB-INF/page/menu/home.jsp</result>
             <result name="title">/WEB-INF/page/menu/title.jsp</result>
             <result name="left">/WEB-INF/page/menu/left.jsp</result>
@@ -24,6 +25,7 @@
             <result name="loading">/WEB-INF/page/menu/loading.jsp</result>
             <result name="alermDevice">/WEB-INF/page/menu/alermDevice.jsp</result>
             <result name="alermStation">/WEB-INF/page/menu/alermStation.jsp</result>
+            <result name="error">/index.jsp</result>
         </action>
         <!--待办事宜-->
         <action name="elecCommonMsgAction_*" class="elecCommonMsgAction" method="{1}">

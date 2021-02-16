@@ -35,4 +35,6 @@ public class ElecUserRoleDaoImpl extends CommonDaoImpl<ElecUserRole> implements 
 
         return list;
     }
+
+
 }

@@ -3,7 +3,19 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
-    <!--添加struts2的过滤器-->
+    <!-- 添加项目自定义的过滤器 start-->
+    <filter>
+        <filter-name>filter</filter-name>
+        <filter-class>com.maben.dlxm.filter.SystemFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>filter</filter-name>
+        <url-pattern>*.do</url-pattern>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <!-- 添加项目自定义的过滤器 end-->
+
+    <!--添加struts2的过滤器 start-->
     <filter>
         <filter-name>struts2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
@@ -13,9 +25,10 @@
         <url-pattern>*.do</url-pattern>
         <url-pattern>*.jsp</url-pattern>
     </filter-mapping>
+    <!--添加struts2的过滤器 end-->
 
 
-    <!--加载spring监听器-->
+    <!--加载spring监听器 start-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>
@@ -23,8 +36,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <!--加载spring监听器 end-->
 
-    <!--ckeditor整合-->
+    <!--ckeditor整合 start-->
     <servlet>
         <servlet-name>ConnectorServlet</servlet-name>
         <servlet-class>com.ckfinder.connector.ConnectorServlet</servlet-class>
@@ -64,7 +78,10 @@
     </filter-mapping>
     <session-config>
         <session-timeout>10</session-timeout>
-    </session-config> 
+    </session-config>
+    <!--ckeditor整合 end-->
 
-
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

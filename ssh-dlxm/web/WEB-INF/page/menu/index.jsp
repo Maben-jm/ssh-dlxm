@@ -60,6 +60,7 @@ FORM {
 						<td height="313" width="73%"></td>
 						<td height="99" width="27%">
 							<table border="0" width="70%" id="table4">
+								<s:fielderror></s:fielderror>
 								<tr>
 									<td width="100"><img border="0" src="${pageContext.request.contextPath}
     /images/yonghu.jpg" width="84" height="20"></td>
@@ -72,14 +73,13 @@ FORM {
 									<td><input type="password" name="password" style="width: 100 px" value=""  maxlength="25"></td>
 
 								</tr>
-								<!--
 								<tr>
 									<td width="100"><img border="0" src="${pageContext.request.contextPath}/images/check.jpg" width="84" height="20"></td>
 									<td>
 										<table>
 											<tr>
 												<td>
-													<input type="text" name="checkNumber" id="checkNumber" style="width: 40 px" value=""  maxlength="4">
+													<input type="text" name="checkNumber" id="checkNumber" style="width: 40px" value=""  maxlength="4">
 												</td>
 												<td>
 													<img src="${pageContext.request.contextPath}/image.jsp" name="imageNumber" id="imageNumber" style="cursor:hand" title="点击可更换图片" height="20" onclick="checkNumberImage()"/>
@@ -95,7 +95,6 @@ FORM {
 									</td>
 
 								</tr>
-								-->
 								<tr>
 									<td width="100"></td>
 									<td width="100"><input type="button" class=btn_mouseout onmouseover="this.className='btn_mouseover'" onmouseout="this.className='btn_mouseout'" value="登   录" name="huifubtn" onclick="checkFunction()"></td>

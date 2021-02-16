@@ -1,7 +1,9 @@
 package com.maben.dlxm.util;
 
 import java.lang.reflect.ParameterizedType;
-
+/**
+ * 范类转换
+ * */
 public class GenericSuperClass {
 
 	/**范类转换*/
