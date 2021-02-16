@@ -46,6 +46,11 @@ public class ElecRoleAction extends BaseAction<ElecUserRole>{
         return "edit";
     }
 
+    public String save(){
+        elecRoleService.saveRole(elecUserRole);
+        return "save";
+    }
+
     private void handlePopedomList(List<ElecPopedom> popedomList, HttpServletRequest request) {
         Map<String, List<ElecPopedom>> result = new LinkedHashMap<>();
         int maxLength = 0;

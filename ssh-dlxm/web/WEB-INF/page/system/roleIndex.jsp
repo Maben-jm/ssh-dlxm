@@ -11,7 +11,7 @@
 		 function saveRole(){
 		 
            document.Form2.roleID.value=document.Form1.roleID.value;
-		   document.Form2.action="saveRole.do";
+		   document.Form2.action="elecRoleAction_save.do";
 		   document.Form2.submit();
 		}
 		

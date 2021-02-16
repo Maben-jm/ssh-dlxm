@@ -1,7 +1,9 @@
 package com.maben.dlxm.service.impl;
 
 import com.maben.dlxm.dao.ElecUserDao;
+import com.maben.dlxm.dao.ElecUserRoleDao;
 import com.maben.dlxm.domain.ElecUser;
+import com.maben.dlxm.domain.ElecUserRole;
 import com.maben.dlxm.service.ElecSystemDDLService;
 import com.maben.dlxm.service.ElecUserService;
 import com.maben.dlxm.util.MD5keyBean;
@@ -23,6 +25,9 @@ public class ElecUserServiceImpl implements ElecUserService {
 
     @Resource(name = ElecSystemDDLService.SERVICE_NAME)
     private ElecSystemDDLService elecSystemDDLService;
+
+    @Resource(name= ElecUserRoleDao.SERVICE_NAME)
+    private ElecUserRoleDao elecUserRoleDao;
 
     @Override
     public List<ElecUser> findUserListByCondition(ElecUser elecUser) {
@@ -72,6 +77,12 @@ public class ElecUserServiceImpl implements ElecUserService {
             return;
         }
         elecUserDao.deleteObjectByIds(userID);
+        //20210216 add for 同事删除用户角色关联关系表 start
+        String condition = " and o.userID=?";
+        Object [] params = {userID};
+        List<ElecUserRole> list = elecUserRoleDao.findCollectionByConditionNoPage(condition, params, null);
+        elecUserRoleDao.deleteObjectByCollection(list);
+        //20210216 add for 同事删除用户角色关联关系表 end
     }
 
     @Override

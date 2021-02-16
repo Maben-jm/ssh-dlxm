@@ -6,9 +6,12 @@ import com.maben.dlxm.dao.ElecUserRoleDao;
 import com.maben.dlxm.domain.ElecPopedom;
 import com.maben.dlxm.domain.ElecRolePopedom;
 import com.maben.dlxm.domain.ElecUser;
+import com.maben.dlxm.domain.ElecUserRole;
 import com.maben.dlxm.service.ElecRoleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -71,6 +74,71 @@ public class ElecRoleServiceImpl implements ElecRoleService {
         List<Object[]> list = elecUserRoleDao.findUserListByRoleID(roleID);
         List<ElecUser> formList = this.userPOListToVOList(list);
         return formList;
+    }
+
+    @Override
+    @Transactional(readOnly = false,isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    public void saveRole(ElecUserRole elecUserRole) {
+        //角色ID
+        String roleID = elecUserRole.getRoleID();
+        //权限编号的数组
+        String [] selectoper = elecUserRole.getSelectoper();
+        //用户ID的数组
+        String [] selectuser = elecUserRole.getSelectuser();
+        /**一：保存角色权限关联表*/
+        this.saveRolePopedom(roleID,selectoper);
+        /**二：保存用户角色关联表*/
+        this.saveUserRole(roleID,selectuser);
+    }
+
+    /**一：保存角色权限关联表*/
+    private void saveRolePopedom(String roleID, String[] selectoper) {
+        //组织PO对象，权限集合的字符串形式aa@ab...
+        StringBuffer popedomcode = new StringBuffer("");
+        if(selectoper!=null && selectoper.length>0){
+            for(int i=0;i<selectoper.length;i++){
+                String code = selectoper[i];
+                popedomcode.append(code);
+                if(i!=selectoper.length-1){//不是循环的最后一个值
+                    popedomcode.append("@");
+                }
+            }
+        }
+        //使用角色ID查询角色权限关联表，判断当前角色在角色权限关联表中是否存在数据
+        ElecRolePopedom elecRolePopedom = elecRolePopedomDao.findObjectById(roleID);
+        //如果对象不为null，数据存在，此时组织PO对象，执行update操作
+        if(elecRolePopedom!=null){
+            elecRolePopedom.setPopedomcode(popedomcode.toString());//组织PO对象，aa@ab...
+            elecRolePopedomDao.update(elecRolePopedom);//该行代码不可以不写，可以使用快照进行更新
+        }
+        //如果对象为null，数据不存在，此时组织PO对象，执行save操作
+        else{
+            elecRolePopedom = new ElecRolePopedom();
+            elecRolePopedom.setRoleID(roleID);//角色ID
+            elecRolePopedom.setPopedomcode(popedomcode.toString());//组织PO对象，aa@ab...
+            elecRolePopedomDao.save(elecRolePopedom);
+        }
+    }
+
+    /**二：保存用户角色关联表*/
+    private void saveUserRole(String roleID, String[] selectuser) {
+        //使用roleID作为查询条件，查询用户角色关联表，获取当前角色下对应数据集合
+        String condition = " and o.roleID=?";
+        Object[] params = {roleID};
+        List<ElecUserRole> list = elecUserRoleDao.findCollectionByConditionNoPage(condition, params, null);
+        //删除当前角色ID在用户角色关联表中的数据
+        elecUserRoleDao.deleteObjectByCollection(list);
+        //遍历用户ID的数组，组织PO对象，执行save
+        if(selectuser!=null && selectuser.length>0){
+            for(int i=0;i<selectuser.length;i++){
+                String userID = selectuser[i];
+                //组织PO对象
+                ElecUserRole elecUserRole = new ElecUserRole();
+                elecUserRole.setRoleID(roleID);
+                elecUserRole.setUserID(userID);
+                elecUserRoleDao.save(elecUserRole);
+            }
+        }
     }
 
     /**值转换*/
