@@ -12,6 +12,26 @@
     <!-- struts与spring整合 -->
     <constant name="struts.objectFactory" value="spring" />
     <package name="system" namespace="/system" extends="json-default">
+        <!--使用拦截器直接对异常统一处理 start-->
+        <interceptors>
+            <!-- 声明拦截器 -->
+            <interceptor name="errorInterceptor" class="com.maben.dlxm.util.ErrorInterceptor" />
+            <!-- 配置拦截器栈 -->
+            <interceptor-stack name="myErrorInterceptor">
+                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="errorInterceptor" />
+            </interceptor-stack>
+        </interceptors>
+        <!-- 覆盖底层的拦截器栈 对包中的所有action都有效 -->
+        <default-interceptor-ref name="myErrorInterceptor"/>
+        <global-results>
+            <result name="errorMsg">/errorMsg.jsp</result>
+        </global-results>
+        <global-exception-mappings>
+            <exception-mapping result="errorMsg" exception="java.lang.Exception"></exception-mapping>
+        </global-exception-mappings>
+        <!--使用拦截器直接对异常统一处理 end-->
+        <!--测试strust2-->
         <action name="elecTextAction_*" class="elecTextAction" method="{1}">
             <result name="success">/system/textAdd.jsp</result>
         </action>
