@@ -10,12 +10,17 @@
 >
 > 主要用到的技术：
 >
-> ​	struts2+spring3+hibernate
+> ​	大框架：struts2+spring3+hibernate
 >
-> ​	mysql8.0.22
+> ​	数据库：mysql8.0.22
 >
-> ​	ckeditor
+> ​	前端技术：富文本编辑器ckeditor
 >
-> ​	jsp
+> ​	前端技术：jsp
+>
+> ​	工作流: JBPM4.4(集成了hibernate3.3)
 
-## 项目暂时只做了登录相关和用户管理功能，之后的是用JBPM做的工作流，暂时停滞一哈
+
+
+
+
