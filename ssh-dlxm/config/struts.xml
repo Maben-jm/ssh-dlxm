@@ -97,4 +97,12 @@
             </result>
         </action>
     </package>
+    <package name="workflow" namespace="/workflow" extends="struts-default">
+        <!--审批流程管理-->
+        <action name="elecProcessDefinitionAction_*" class="elecProcessDefinitionAction" method="{1}">
+            <result name="home">/WEB-INF/page/workflow/processDefinitionList.jsp</result>
+            <result name="add">/WEB-INF/page/workflow/processDefinitionAdd.jsp</result>
+            <result name="save">/close.jsp</result>
+        </action>
+    </package>
 </struts>

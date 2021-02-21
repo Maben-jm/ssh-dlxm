@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="设备购置计划" xmlns="http://jbpm.org/4.4/jpdl">
+   <start name="start1" g="239,15,48,48">
+      <transition name="to 提交申请" to="提交申请" g="-71,-17"/>
+   </start>
+   <end name="end1" g="239,389,48,48"/>
+   <task name="提交申请" g="193,95,140,64" assignee="#{application.applicationLogonName}">
+      <transition name="to 审批【部门经理】" to="审批【部门经理】" g="-119,-17"/>
+   </task>
+   <task name="审批【部门经理】" g="192,191,142,69" assignee="lisi">
+      <transition name="to 审批【总经理】" to="审批【总经理】" g="-107,-17"/>
+   </task>
+   <task name="审批【总经理】" g="194,292,138,65" assignee="wangwu">
+      <transition name="to end1" to="end1" g="-47,-17"/>
+   </task>
+</process>

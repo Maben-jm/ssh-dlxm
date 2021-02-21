@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 	<title>部署流程定义</title>
@@ -11,7 +12,7 @@
 	</script>
 </head>
 <body>
-		<form name="Form1" action="workflow/elecProcessDefinitionAction_save.do" method="post" enctype="multipart/form-data">
+		<s:form name="Form1" namespace="/workflow" action="elecProcessDefinitionAction_save.do" method="post" enctype="multipart/form-data">
 			<br>
 			<table border="0" width="100%" cellspacing="0" cellpadding="0">
 				<tr>
@@ -35,7 +36,7 @@
 						请选择流程定义文档(zip格式):
 					</td>
 					<td width="80%" align="left">
-						<input type="file" name="upload" style="width:450px;" /> *
+						<s:file name="upload" cssStyle="width:450px;" />*
 					</td>
 					<td width="1%"></td>
 				</tr>
@@ -58,7 +59,7 @@
 					</td>
 				</tr>
 			</table>
-		</form>
+		</s:form>
 
 </body>
 </html>

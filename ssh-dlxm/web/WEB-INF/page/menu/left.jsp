@@ -326,7 +326,8 @@
 									<u:if pattern="am">
 									<TR>
 										<TD class="box05" onmouseover="backgroundColorChange(this,'white');" onmouseout="backgroundColorChange(this,'');">
-											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/processDefinitionList.jsp" target="mainFrame">审批流程管理</A>
+											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/elecProcessDefinitionAction_home.do" target="mainFrame">
+										审批流程管理</A>
 										</TD>
 									</TR>
 									</u:if>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="设备费用报销" xmlns="http://jbpm.org/4.4/jpdl">
+   <start g="239,15,48,48" name="start1">
+      <transition g="-71,-17" name="to 提交申请" to="提交申请"/>
+   </start>
+   <end g="239,389,48,48" name="end1"/>
+   <task assignee="#{application.applicationLogonName}" g="193,95,140,64" name="提交申请">
+      <transition g="-119,-17" name="to 审批【部门经理】" to="审批【部门经理】"/>
+   </task>
+   <task assignee="lisi" g="192,191,142,69" name="审批【部门经理】">
+      <transition g="-107,-17" name="to 审批【总经理】" to="审批【总经理】"/>
+      <transition name="to end1" to="end1" g="-47,-17"/>
+   </task>
+   <task assignee="wangwu" g="350,288,138,65" name="审批【总经理】">
+      <transition g="-47,-17" name="to end1" to="end1"/>
+   </task>
+</process>
