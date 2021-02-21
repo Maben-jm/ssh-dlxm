@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -57,6 +58,10 @@ public class ElecProcessDefinitionAction extends BaseAction<ProcessDefinitionBea
      * @return
      */
     public String downloadProcessImage(){
+        //查询数据库，获取数据库中存放的资源文件，返回InputStream的形式，并将InputStream的文件流放置到栈顶中的属性inputStream中
+        InputStream inputStream = elecProcessDefinitionService.findImageImputStream(processDefinitionBean);
+        //将文件流放置到栈顶中
+        processDefinitionBean.setInputStream(inputStream);
         return "downloadProcessImage";
     }
 

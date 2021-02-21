@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.zip.ZipInputStream;
 
@@ -45,7 +47,7 @@ public class ElecProcessDefinitionServiceImpl implements ElecProcessDefinitionSe
      * @param processDefinitionBean 模型驱动对象
      */
     @Override
-    @Transactional(readOnly = false,isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = false, isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)
     public void deployProcessDefinition(ProcessDefinitionBean processDefinitionBean) {
         try {
             //获取部署zip的文件，得到是File类型的upload，将Flie类型的文件转换成zip格式的文件。
@@ -59,6 +61,31 @@ public class ElecProcessDefinitionServiceImpl implements ElecProcessDefinitionSe
         } catch (Exception e) {
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public InputStream findImageImputStream(ProcessDefinitionBean processDefinitionBean) {
+        //从页面上获取流程定义的ID，使用流程定义的ID进行查询，获取流程定义的对象，从而获取部署对象ID和资源文件名称
+        //流程定义ID
+        String id = processDefinitionBean.getId();
+        //处理中文乱码的形式，如果js中定义id = encodeURI(id,"UTF-8");//让id以UTF-8的形式进行编码
+        try {
+            id = new String(id.getBytes("iso-8859-1"), "UTF-8");//让id以UTF-8的形式进行解码
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        ProcessDefinition pd = processEngine.getRepositoryService()//
+                .createProcessDefinitionQuery()//
+                .processDefinitionId(id)//按照流程定义的ID查询
+                .uniqueResult();
+        //获取部署对象ID
+        String deploymentId = pd.getDeploymentId();
+        //资源文件名称
+        String imageResourceName = pd.getImageResourceName();
+        //使用部署对象ID和资源文件名称，获取图片的文件流InputStream
+        InputStream inputStream = processEngine.getRepositoryService()//
+                .getResourceAsStream(deploymentId, imageResourceName);
+        return inputStream;
     }
 }
 
