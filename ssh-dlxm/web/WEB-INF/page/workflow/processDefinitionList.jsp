@@ -17,6 +17,7 @@
             }
 
             function openFunction(id) {
+                id = encodeURI(id,"UTF-8");
                 openWindow('${pageContext.request.contextPath }/workflow/elecProcessDefinitionAction_downloadProcessImage.do?id=' + id, '700', '400');
             }
         </script>
@@ -92,8 +93,7 @@
                                                 <s:property value="%{#item.description}"></s:property>
                                             </td>
                                             <td style="HEIGHT:22px" align="center" width="10%">
-                                                <a id="<s:property value="%{#item.id}" />" href="#" onclick="returnMethod('<s:property value="#item.name"/>','<s:property value="#item.key"/>', +
-                                                '<s:property value="#item.id"/>')">
+                                                <a id="<s:property value="%{#item.id}" />" href="#" onclick="returnMethod('<s:property value="#item.name"/>','<s:property value="#item.key"/>','<s:property value="%{#item.id}"/>')">
                                                     <img src="${pageContext.request.contextPath }/images/delete.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
                                             </td>
                                             <td style="HEIGHT:22px" align="center" width="10%">

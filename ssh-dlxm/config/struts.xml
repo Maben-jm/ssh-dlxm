@@ -108,6 +108,10 @@
                 <param name="inputName">inputStream</param>
                 <param name="contentDisposition">inline</param>
             </result>
+            <result name="delete" type="redirectAction">
+                <param name="namespace">/workflow</param>
+                <param name="actionName">elecProcessDefinitionAction_home.do</param>
+            </result>
         </action>
     </package>
 </struts>

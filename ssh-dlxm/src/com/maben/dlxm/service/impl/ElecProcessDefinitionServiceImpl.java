@@ -87,5 +87,34 @@ public class ElecProcessDefinitionServiceImpl implements ElecProcessDefinitionSe
                 .getResourceAsStream(deploymentId, imageResourceName);
         return inputStream;
     }
+
+    @Override
+    @Transactional(readOnly = false,isolation = Isolation.DEFAULT,propagation = Propagation.REQUIRED)
+    public void deleteProcessDefinitionByKey(ProcessDefinitionBean processDefinitionBean) {
+        //获取流程定义的key
+        String key = processDefinitionBean.getKey();
+        //处理中文乱码的形式
+        try {
+            key = new String(key.getBytes("iso-8859-1"), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        //使用流程定义的key获取该key值下所有版本的流程定义，返回List集合
+        List<ProcessDefinition> list = processEngine.getRepositoryService()//
+                .createProcessDefinitionQuery()//
+                .processDefinitionKey(key)//按照流程定义的key查询流程定义
+                .list();
+        //遍历List集合，遍历每个部署对象ID，执行删除
+        if (list != null && list.size() > 0) {
+            for (ProcessDefinition pd : list) {
+                //获取每个部署对象ID
+                String deploymentId = pd.getDeploymentId();
+                //删除流程定义
+                processEngine.getRepositoryService()//
+                        .deleteDeploymentCascade(deploymentId);
+            }
+        }
+
+    }
 }
 

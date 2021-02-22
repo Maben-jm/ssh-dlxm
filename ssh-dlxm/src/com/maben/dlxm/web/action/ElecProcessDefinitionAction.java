@@ -54,8 +54,8 @@ public class ElecProcessDefinitionAction extends BaseAction<ProcessDefinitionBea
     }
 
     /**
-     *
-     * @return
+     * 查看已上传的流程图片
+     * @return 返回数据流
      */
     public String downloadProcessImage(){
         //查询数据库，获取数据库中存放的资源文件，返回InputStream的形式，并将InputStream的文件流放置到栈顶中的属性inputStream中
@@ -63,6 +63,15 @@ public class ElecProcessDefinitionAction extends BaseAction<ProcessDefinitionBea
         //将文件流放置到栈顶中
         processDefinitionBean.setInputStream(inputStream);
         return "downloadProcessImage";
+    }
+
+    /**
+     * 删除流程定义
+     * @return 重定向到home
+     */
+    public String delete(){
+        elecProcessDefinitionService.deleteProcessDefinitionByKey(processDefinitionBean);
+        return "delete";
     }
 
 }

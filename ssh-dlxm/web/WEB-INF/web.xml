@@ -76,10 +76,15 @@
             /ckfinder/core/connector/java/connector.java
         </url-pattern>
     </filter-mapping>
+    <!--ckeditor整合 end-->
+
+
+    <!--设置会话session超时时间 start-->
     <session-config>
+        <!--10分钟-->
         <session-timeout>10</session-timeout>
     </session-config>
-    <!--ckeditor整合 end-->
+    <!--设置会话session超时时间 end-->
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

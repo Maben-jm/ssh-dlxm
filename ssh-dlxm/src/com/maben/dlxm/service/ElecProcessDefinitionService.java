@@ -15,4 +15,6 @@ public interface ElecProcessDefinitionService {
     void deployProcessDefinition(ProcessDefinitionBean processDefinitionBean);
 
     InputStream findImageImputStream(ProcessDefinitionBean processDefinitionBean);
+
+    void deleteProcessDefinitionByKey(ProcessDefinitionBean processDefinitionBean);
 }
