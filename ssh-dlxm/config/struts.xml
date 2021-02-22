@@ -113,5 +113,10 @@
                 <param name="actionName">elecProcessDefinitionAction_home.do</param>
             </result>
         </action>
+        <!--申请模板管理-->
+        <action name="elecApplicationTemplateAction_*" class="elecApplicationTemplateAction" method="{1}">
+            <result name="home">/WEB-INF/page/workflow/applicationTemplateList.jsp</result>
+            <result name="add">/WEB-INF/page/workflow/applicationTemplateAdd.jsp</result>
+        </action>
     </package>
 </struts>

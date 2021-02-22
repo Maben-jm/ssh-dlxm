@@ -334,7 +334,7 @@
 									<u:if pattern="an">
 									<TR>
 										<TD class="box05" onmouseover="backgroundColorChange(this,'white');" onmouseout="backgroundColorChange(this,'');">
-											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/applicationTemplateList.jsp" target="mainFrame">申请模板管理</A>
+											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/elecApplicationTemplateAction_home.do" target="mainFrame">申请模板管理</A>
 										</TD>
 									</TR>
 									</u:if>
