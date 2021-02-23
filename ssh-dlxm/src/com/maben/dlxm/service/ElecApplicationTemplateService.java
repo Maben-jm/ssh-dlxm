@@ -8,4 +8,6 @@ public interface ElecApplicationTemplateService {
     public static final String SERVICE_NAME = "com.maben.dlxm.service.impl.ElecApplicationTemplateServiceImpl";
 
     List<ElecApplicationTemplate> findApplicationTemplateList();
+
+    void saveElecApplicationTemplate(ElecApplicationTemplate elecApplicationTemplate);
 }

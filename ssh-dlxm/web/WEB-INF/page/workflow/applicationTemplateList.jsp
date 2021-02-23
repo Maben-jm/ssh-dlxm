@@ -83,7 +83,7 @@
                                                     <img src="${pageContext.request.contextPath }/images/delete.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
                                             </td>
                                             <td style="HEIGHT:22px" align="center" width="10%">
-                                                <a href="#" onclick="openWindow('${pageContext.request.contextPath }/workflow/applicationTemplateEdit.jsp?id=<s:property value="%{#item.id}"></s:property>','700','400');">
+                                                <a href="#" onclick="openWindow('${pageContext.request.contextPath }/workflow/elecApplicationTemplateAction_edit.do?id=<s:property value="%{#item.id}"></s:property>','700','400');">
                                                     <img src="${pageContext.request.contextPath }/images/edit.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
                                             </td>
                                             <td style="HEIGHT:22px" align="center" width="10%">

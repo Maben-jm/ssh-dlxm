@@ -117,6 +117,8 @@
         <action name="elecApplicationTemplateAction_*" class="elecApplicationTemplateAction" method="{1}">
             <result name="home">/WEB-INF/page/workflow/applicationTemplateList.jsp</result>
             <result name="add">/WEB-INF/page/workflow/applicationTemplateAdd.jsp</result>
+            <result name="save">/close.jsp</result>
+            <result name="edit">/WEB-INF/page/workflow/applicationTemplateEdit.jsp</result>
         </action>
     </package>
 </struts>

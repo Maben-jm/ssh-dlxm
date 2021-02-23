@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 	<title>新增申请模板</title>
@@ -11,7 +12,7 @@
 	</script>
 </head>
 <body>
-		<form name="Form1" action="workflow/elecApplicationTemplateAction_save.do" method="post" enctype="multipart/form-data">
+		<s:form name="Form1" namespace="workflow" action="elecApplicationTemplateAction_save.do" method="post" enctype="multipart/form-data">
 			<br>
 			<table border="0" width="100%" cellspacing="0" cellpadding="0">
 				<tr>
@@ -38,24 +39,24 @@
 				<tr>
 					<td align="center" bgColor="#f5fafe" class="ta_01">模板名称：<font color="#FF0000">*</font></td>
 			        <td class="ta_01" bgColor="#ffffff" colspan="3">
-			        	<input type="text" name="name" size="20" value="" id="name"/>
+						<s:textfield name="name" size="20" value="" id="name" ></s:textfield>
 			        </td>
 				</tr>
 				<tr>
 					<td width="18%" align="center" bgColor="#f5fafe" class="ta_01">流程定义的Key值：<font color="#FF0000">*</font></td>
 			        <td class="ta_01" bgColor="#ffffff" colspan="3">
-			         	<select name="processDefinitionKey" id="processDefinitionKey" style="width:155px">
-						    <option value=""></option>
-						    <option value="设备购置计划流程">设备购置计划流程</option>
-						    <option value="设备费用报销流程">设备费用报销流程</option>
-						</select>
+						<s:select list="#request.pds"
+								  listValue="key" listKey="key"
+								  headerValue="" headerKey=""
+								  name="processDefinitionKey" id="processDefinitionKey" cssStyle="width:155px"
+						></s:select>
 	            	</td>
 				</tr>
 				
 				<tr>
 					<td align="center" bgColor="#f5fafe" class="ta_01">请选择模板文件(doc格式)：<font color="#FF0000">*</font></td>
 			        <td class="ta_01" bgColor="#ffffff" colspan="3">
-			        	<input type="file" name="upload" style="width:450px;" /> 
+						<s:file name="upload" style="width:450px;"></s:file>
 			        </td>
 				</tr>
 				<tr height=50>
@@ -77,7 +78,7 @@
 					</td>
 				</tr>
 			</table>
-		</form>
+		</s:form>
 
 </body>
 </html>
