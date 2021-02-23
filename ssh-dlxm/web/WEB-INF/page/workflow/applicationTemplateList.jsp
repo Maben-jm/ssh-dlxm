@@ -6,8 +6,8 @@
         <LINK href="${pageContext.request.contextPath }/css/Style.css" type="text/css" rel="stylesheet">
         <script language="javascript" src="${pageContext.request.contextPath }/script/function.js"></script>
         <script type="text/javascript">
-            function returnMethod() {
-                return confirm("你确定要删除  XXXXX模板吗？");
+            function returnMethod(name) {
+                return confirm("你确定要删除  "+name+"模板吗？");
             }
         </script>
     </head>
@@ -79,7 +79,8 @@
                                                 <s:property value="%{#item.processDefinitionKey}"></s:property>
                                             </td>
                                             <td style="HEIGHT:22px" align="center" width="10%">
-                                                <a href="elecApplicationTemplateAction_delete.do?id=<s:property value="%{#item.id}"></s:property>" onclick="return returnMethod()">
+                                                <a href="elecApplicationTemplateAction_delete.do?id=<s:property value="%{#item.id}"></s:property>"
+                                                   onclick="return returnMethod('<s:property  value="%{#item.name}" />')">
                                                     <img src="${pageContext.request.contextPath }/images/delete.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
                                             </td>
                                             <td style="HEIGHT:22px" align="center" width="10%">
@@ -87,7 +88,8 @@
                                                     <img src="${pageContext.request.contextPath }/images/edit.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
                                             </td>
                                             <td style="HEIGHT:22px" align="center" width="10%">
-                                                <a href="#" onclick="openWindow('${pageContext.request.contextPath }/workflow/elecApplicationTemplateAction_download.do?id=<s:property value="%{#item.id}"></s:property>','700','400');">
+                                                <a href="#" onclick="openWindow('${pageContext.request.contextPath }/workflow/elecApplicationTemplateAction_download.do?id=<s:property
+                                                value="%{#item.id}"></s:property>','700','400');">
                                                     <img src="${pageContext.request.contextPath }/images/attach.gif" border="0" style="CURSOR:hand"></a>
                                             </td>
                                         </tr>

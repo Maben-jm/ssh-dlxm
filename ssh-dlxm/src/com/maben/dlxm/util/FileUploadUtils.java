@@ -41,4 +41,5 @@ public class FileUploadUtils {
 		boolean flag = file1.renameTo(file2);
 		System.out.println("flag:"+flag);
 	}
+
 }
