@@ -10,16 +10,16 @@
     <!--将struts2的UI主题改为简单-->
     <constant name="struts.ui.theme" value="simple"></constant>
     <!-- struts与spring整合 -->
-    <constant name="struts.objectFactory" value="spring" />
+    <constant name="struts.objectFactory" value="spring"/>
     <package name="system" namespace="/system" extends="json-default">
         <!--使用拦截器直接对异常统一处理 start-->
         <interceptors>
             <!-- 声明拦截器 -->
-            <interceptor name="errorInterceptor" class="com.maben.dlxm.util.ErrorInterceptor" />
+            <interceptor name="errorInterceptor" class="com.maben.dlxm.util.ErrorInterceptor"/>
             <!-- 配置拦截器栈 -->
             <interceptor-stack name="myErrorInterceptor">
-                <interceptor-ref name="defaultStack" />
-                <interceptor-ref name="errorInterceptor" />
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="errorInterceptor"/>
             </interceptor-stack>
         </interceptors>
         <!-- 覆盖底层的拦截器栈 对包中的所有action都有效 -->
@@ -128,6 +128,17 @@
                 <param name="inputName">inputStream</param>
                 <param name="contentDisposition">attachment;filename="${name}.doc"</param>
                 <param name="bufferSize">1024</param>
+            </result>
+        </action>
+        <!--起草申请，待我审批，我的申请-->
+        <action name="elecApplicationFlowAction_*" class="elecApplicationFlowAction" method="{1}">
+            <result name="home">/WEB-INF/page/workflow/flowTemplateList.jsp</result>
+            <result name="myApplicationHome">/WEB-INF/page/workflow/flowMyApplicationList.jsp</result>
+            <result name="myTaskHome">/WEB-INF/page/workflow/flowMyTaskList.jsp</result>
+            <result name="submitApplication">/WEB-INF/page/workflow/flowSubmitApplication.jsp</result>
+            <result name="saveApplication" type="redirectAction">
+                <param name="namespace">/workflow</param>
+                <param name="actionName">elecApplicationFlowAction_myApplicationHome.do</param>
             </result>
         </action>
     </package>

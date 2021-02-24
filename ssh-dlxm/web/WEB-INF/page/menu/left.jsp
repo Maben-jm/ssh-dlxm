@@ -341,21 +341,23 @@
 									<u:if pattern="ao">
 									<TR>
 										<TD class="box05" onmouseover="backgroundColorChange(this,'white');" onmouseout="backgroundColorChange(this,'');">
-											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/flowTemplateList.jsp" target="mainFrame">起草申请</A>
+											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/elecApplicationFlowAction_home.do" target="mainFrame">起草申请</A>
 										</TD>
 									</TR>
 									</u:if>
 									<u:if pattern="ap">
 									<TR>
 										<TD class="box05" onmouseover="backgroundColorChange(this,'white');" onmouseout="backgroundColorChange(this,'');">
-											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/flowMyTaskList.jsp" target="mainFrame">待我审批</A>
+											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/elecApplicationFlowAction_myTaskHome.do" target="mainFrame">待我审批</A>
 										</TD>
 									</TR>
 									</u:if>
 									<u:if pattern="aq">
 									<TR>
 										<TD class="box06" onmouseover="backgroundColorChange(this,'white');" onmouseout="backgroundColorChange(this,'');">
-											<A class="cl_01" onclick="linkcolorchange(this)" href="${pageContext.request.contextPath }/workflow/flowMyApplicationList.jsp" target="mainFrame">我的申请查询</A>
+											<A class="cl_01" onclick="linkcolorchange(this)"
+										href="${pageContext.request.contextPath }/workflow/elecApplicationFlowAction_myApplicationHome.do" target="mainFrame">
+										我的申请查询</A>
 										</TD>
 									</TR>
 									</u:if>
