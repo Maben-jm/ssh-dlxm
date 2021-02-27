@@ -54,4 +54,24 @@ public class ElecUserDaoImpl extends CommonDaoImpl<ElecUser> implements ElecUser
         return list;
     }
 
+    @Override
+    public List<Object[]> findChartDataSet() {
+        final String sql = "SELECT max(b.keyword),max(b.ddlName),COUNT(b.ddlCode) FROM elec_user a " +
+                " LEFT OUTER JOIN elec_systemddl b ON a.jctID = b.ddlCode AND b.keyword = '所属单位' " +
+                " WHERE a.isDuty = '1' " +
+                " GROUP BY b.ddlCode";
+
+        List<Object[]> list = (List<Object[]>) this.getHibernateTemplate().execute(new HibernateCallback(){
+
+            public Object doInHibernate(Session session)
+                    throws HibernateException, SQLException {
+                Query query = session.createSQLQuery(sql);
+                return query.list();
+            }
+
+        });
+
+        return list;
+    }
+
 }

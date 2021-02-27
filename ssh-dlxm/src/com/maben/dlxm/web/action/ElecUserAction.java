@@ -4,6 +4,7 @@ import com.maben.dlxm.domain.ElecSystemDDL;
 import com.maben.dlxm.domain.ElecUser;
 import com.maben.dlxm.service.ElecSystemDDLService;
 import com.maben.dlxm.service.ElecUserService;
+import com.maben.dlxm.util.ChartUtils;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -88,5 +89,45 @@ public class ElecUserAction extends BaseAction<ElecUser> {
         request.setAttribute("isDutyList", isDutyList);
     }
 
+    /**
+     * 人员统计，以图形的形式输出
+     * @return 跳转到system/userReport.jsp
+     */
+    public String chartUser(){
+        //构造图形显示的数据集合:b.keyword,b.ddlName,COUNT(b.ddlCode)
+        List<Object[]> list = elecUserService.findChartDataSet();
+        //获取判断的标识
+        String chart = request.getParameter("chart");
+        if(chart!=null && chart.equals("1")){//按照fusionChartFree统计
+            //组织XML的数据
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < list.size(); i++) {
+                Object[] objects = (Object[])list.get(i);
+                if(i==0){//组织第一个值
+                    String x = "所属单位名称";
+                    String y = "unit";//存在FusionChart中的一个问题，Y轴的显示不支持中文，所以我们用英文代替
+                    sb.append("<graph caption='用户统计报表("+objects[0].toString()+")' xAxisName='"+x+"' bgColor='FFFFDD' yAxisName='"+y+"' showValues='1'  decimals='0' baseFontSize='18'  maxColWidth='60' showNames='1' decimalPrecision='0'> ");
+                    sb.append("<set name='"+objects[1].toString()+"' value='"+objects[2].toString()+"' color='AFD8F8'/>");
+                }
+                if(i==1){
+                    sb.append("<set name='"+objects[1].toString()+"' value='"+objects[2].toString()+"' color='F6BD0F'/>");
+                }
+                if(i==list.size()-1){//组织最后一个值
+                    sb.append("<set name='"+objects[1].toString()+"' value='"+objects[2].toString()+"' color='8BBA00'/>");
+                    sb.append("</graph>");
+                }
+            }
+            request.setAttribute("chart", sb);
+            return "chartUserBetiful";
+        }
+        else{//按照Jfreechart统计
+            //使用Jfreechart生成柱状图，将图形生成图片保存在项目目录下chart文件夹中，同时返回文件的名称
+            String filename = ChartUtils.chartUserWithBar(list);
+            //将生成图片的文件名称，放置到request作用域，用于页面的显示
+            request.setAttribute("filename", filename);
+            return "chartUser";
+        }
+
+    }
 
 }

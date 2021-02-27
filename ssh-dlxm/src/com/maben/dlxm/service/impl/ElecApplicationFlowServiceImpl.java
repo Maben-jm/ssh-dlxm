@@ -95,12 +95,12 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
         String condition = "";
         List<Object> paramsList = new ArrayList<Object>();
         //判断如果申请模板的值不为null
-        if(elecApplication.getApplicationTemplateID()!=null){
+        if (elecApplication.getApplicationTemplateID() != null) {
             condition += " and o.applicationTemplateID=? ";
             paramsList.add(elecApplication.getApplicationTemplateID());
         }
         //判断如果审核状态的值不为null
-        if(StringUtils.isNotBlank(elecApplication.getStatus())){
+        if (StringUtils.isNotBlank(elecApplication.getStatus())) {
             condition += " and o.status=? ";
             paramsList.add(elecApplication.getStatus());
         }
@@ -109,7 +109,7 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
         condition += " and o.applicationLogonName = ?";
         paramsList.add(elecUser.getLogonName());
         //将List转换成Object[]
-        Object [] params = paramsList.toArray();
+        Object[] params = paramsList.toArray();
         //排序：按照申请时间降序排列
         Map<String, String> orderby = new LinkedHashMap<String, String>();
         orderby.put("o.applyTime", "desc");
@@ -132,8 +132,8 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
                 .assignee(elecUser.getLogonName())//
                 .list();
         /**2:遍历List集合，获取每个任务对象，从而获取对应每个任务的流程变量*/
-        if(list!=null && list.size()>0){
-            for(Task task:list){
+        if (list != null && list.size() > 0) {
+            for (Task task : list) {
                 String taskId = task.getId();
                 //使用任务ID获取流程变量
                 ProcessVariables processVariables = (ProcessVariables) processEngine.getTaskService()//
@@ -148,8 +148,7 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
         return applicationList;
     }
 
-    public Collection<String> findOutComeListByTaskId(
-            ElecApplication elecApplication) {
+    public Collection<String> findOutComeListByTaskId(ElecApplication elecApplication) {
         //任务ID
         String taskId = elecApplication.getTaskId();
         Collection<String> outcomes = processEngine.getTaskService()//
@@ -168,7 +167,7 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
         //处理中文在xml中的显示，使用UTF-8进行编码
         try {
             //name = URLEncoder.encode(name, "UTF-8");
-            title = new String(title.getBytes("gbk"),"iso-8859-1");
+            title = new String(title.getBytes("gbk"), "iso-8859-1");
         } catch (Exception e1) {
             e1.printStackTrace();
         }
@@ -188,7 +187,7 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
     }
 
     @Override
-    @Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
+    @Transactional(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED, readOnly = false)
     public void approve(ElecApplication elecApplication) {
         /**1：组织PO对象对象，向审核信息表添加数据*/
         this.saveApproveInfo(elecApplication);
@@ -216,19 +215,19 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
         /**4：获取页面选择的【同意】和【不同意】的状态（approval：true/false）*/
         boolean approval = elecApplication.isApproval();//审核状态
         //如果同意
-        if(approval){
+        if (approval) {
             //如果当前路程结束的话，将申请信息表的状态从审核中----->审核通过
-            if(pi==null){
+            if (pi == null) {
                 application.setStatus(application.APPLICATION_PASS);
             }
         }
         //如果不同意
-        else{
+        else {
             /**
              *  * 如果当前流程没有结束的话，强制终止流程
              * 将审请信息表的状态从审核中----->审核不通过
              */
-            if(pi!=null){
+            if (pi != null) {
                 processEngine.getExecutionService()//
                         .endProcessInstance(pi.getId(), ProcessInstance.STATE_ENDED);//强制终止流程
             }
@@ -237,13 +236,12 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
     }
 
     @Override
-    public List<ElecApproveInfo> findApproveInfoListByApplicationID(
-            ElecApplication elecApplication) {
+    public List<ElecApproveInfo> findApproveInfoListByApplicationID(ElecApplication elecApplication) {
         //获取申请ID
         Long applicationID = elecApplication.getApplicationID();
         //以申请ID作为查询条件
         String condition = " and o.applicationID = ? ";
-        Object [] params = {applicationID};
+        Object[] params = { applicationID };
         //按审批时间升序排列。
         Map<String, String> orderby = new LinkedHashMap<String, String>();
         orderby.put("o.approveTime", "asc");
@@ -274,8 +272,7 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
     }
 
     /**将流程变量的对象，转换成ElecApplication对象*/
-    private ElecApplication pocessVariablesToElecApplication(
-            ProcessVariables processVariables) {
+    private ElecApplication pocessVariablesToElecApplication(ProcessVariables processVariables) {
         ElecApplication elecApplication = new ElecApplication();
         try {
             BeanUtils.copyProperties(elecApplication, processVariables);

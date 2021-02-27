@@ -141,6 +141,12 @@ public class ElecUserServiceImpl implements ElecUserService {
         return buffer.toString();
     }
 
+    @Override
+    public List<Object[]> findChartDataSet() {
+        List<Object[]> list = elecUserDao.findChartDataSet();
+        return list;
+    }
+
     /**
      * 使用md5技术对密码进行加密
      */

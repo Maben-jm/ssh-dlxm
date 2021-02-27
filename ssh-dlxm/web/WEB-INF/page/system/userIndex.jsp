@@ -54,6 +54,9 @@
 					<td class="ta_01" align="right">
 					    <input style="font-size:12px; color:black; height:20px;width:80px" id="BT_find" type="button" value="查询" name="BT_find"  onclick="document.forms[0].submit()">&nbsp;&nbsp;
 						<input style="font-size:12px; color:black; height:20px;width:80px" id="BT_Add" type="button" value="添加用户" name="BT_Add" onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_add.do','700','400')">&nbsp;&nbsp;
+						<input style="font-size:12px; color:black; height=20;width=80" id="BT_Add" type="button" value="人员统计" name="BT_Add"
+							   onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_chartUser.do','700','400')">&nbsp;&nbsp;
+						<input style="font-size:12px; color:black; height=20;width=80"  type="button" value="人员统计(炫)" name="BT_Add"   onclick="openWindow('${pageContext.request.contextPath }/system/elecUserAction_chartUser.do?chart=1','700','400')">&nbsp;&nbsp;
 					</td>
 				</tr>
 					

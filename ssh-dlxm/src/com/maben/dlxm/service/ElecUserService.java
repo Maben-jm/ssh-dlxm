@@ -23,4 +23,6 @@ public interface ElecUserService {
     Hashtable<String, String> findRoleByLogonName(String name);
 
     String findPopedomByLogonName(String name);
+
+    List<Object[]> findChartDataSet();
 }

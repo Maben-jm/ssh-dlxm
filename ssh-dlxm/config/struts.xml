@@ -86,6 +86,8 @@
             <result name="checkUser" type="json">
                 <param name="root">message</param>
             </result>
+            <result name="chartUser">/WEB-INF/page/system/userReport.jsp</result>
+            <result name="chartUserBetiful">/WEB-INF/page/system/userReportBeautiful.jsp</result>
         </action>
         <!--角色管理-->
         <action name="elecRoleAction_*" class="elecRoleAction" method="{1}">
