@@ -11,6 +11,7 @@ import com.maben.dlxm.service.ElecApplicationFlowService;
 import com.maben.dlxm.util.FileUploadUtils;
 import com.maben.dlxm.web.form.ProcessVariables;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.jbpm.api.ProcessEngine;
 import org.jbpm.api.ProcessInstance;
@@ -22,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service(value = ElecApplicationFlowService.SERVICE_NAME)
 @Transactional(readOnly = true)
@@ -81,6 +80,39 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
         processEngine.getTaskService()//
                 .completeTask(task.getId());//使用任务ID完成任务
     }
+
+    /**
+     * 我的申请列表查询
+     * @param elecApplication elecApplication
+     * @return List<ElecApplication>
+     */
+    @Override
+    public List<ElecApplication> findApplicationListByCondition(ElecApplication elecApplication) {
+        String condition = "";
+        List<Object> paramsList = new ArrayList<Object>();
+        //判断如果申请模板的值不为null
+        if(elecApplication.getApplicationTemplateID()!=null){
+            condition += " and o.applicationTemplateID=? ";
+            paramsList.add(elecApplication.getApplicationTemplateID());
+        }
+        //判断如果审核状态的值不为null
+        if(StringUtils.isNotBlank(elecApplication.getStatus())){
+            condition += " and o.status=? ";
+            paramsList.add(elecApplication.getStatus());
+        }
+        //以当前登录的人的登录名作为查询条件
+        ElecUser elecUser = (ElecUser) ServletActionContext.getRequest().getSession().getAttribute("globle_user");
+        condition += " and o.applicationLogonName = ?";
+        paramsList.add(elecUser.getLogonName());
+        //将List转换成Object[]
+        Object [] params = paramsList.toArray();
+        //排序：按照申请时间降序排列
+        Map<String, String> orderby = new LinkedHashMap<String, String>();
+        orderby.put("o.applyTime", "desc");
+        List<ElecApplication> list = elecApplicationDao.findCollectionByConditionNoPage(condition, params, orderby);
+        return list;
+    }
+
 
     /**完成javabean的复制，将PO对象中的属性值，设置到流程变量中*/
     private ProcessVariables copyElecApplicationToProcessVariables(ElecApplication elecApplication) {
