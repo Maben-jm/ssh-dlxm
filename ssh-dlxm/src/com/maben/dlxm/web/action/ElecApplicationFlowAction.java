@@ -2,6 +2,7 @@ package com.maben.dlxm.web.action;
 
 import com.maben.dlxm.domain.ElecApplication;
 import com.maben.dlxm.domain.ElecApplicationTemplate;
+import com.maben.dlxm.domain.ElecApproveInfo;
 import com.maben.dlxm.domain.ElecSystemDDL;
 import com.maben.dlxm.service.ElecApplicationFlowService;
 import com.maben.dlxm.service.ElecApplicationTemplateService;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
+import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 
 @Controller("elecApplicationFlowAction")
@@ -80,6 +83,8 @@ public class ElecApplicationFlowAction extends BaseAction<ElecApplication> {
      * @return /workflow/flowMyTaskList.jsp
      */
     public String myTaskHome(){
+        List<ElecApplication> list = elecApplicationFlowService.findMyTask();
+        request.setAttribute("applicationList", list);
         return "myTaskHome";
     }
 
@@ -89,5 +94,41 @@ public class ElecApplicationFlowAction extends BaseAction<ElecApplication> {
      */
     public String submitApplication(){
         return "submitApplication";
+    }
+
+    /**
+     * 跳转到审批处理页面
+     * @return 跳转到workflow/flowApprove.jsp
+     */
+    public String flowApprove(){
+        Collection<String> outcome = elecApplicationFlowService.findOutComeListByTaskId(elecApplication);
+        request.setAttribute("outcome", outcome);
+        return "flowApprove";
+    }
+
+    /**
+     * 下载申请文件
+     * @return 下载文件
+     */
+    public String download(){
+        InputStream inputStream = elecApplicationFlowService.findInputStreamWithFile(elecApplication);
+        //将存放数据的InputStream输入流对象放置到模型驱动中的属性InputStream
+        elecApplication.setInputStream(inputStream);
+        return "download";
+    }
+
+    /**
+     * 保存审批
+     * @return 重定向到workflow/flowMyTaskList.jsp
+     */
+    public String approve(){
+        elecApplicationFlowService.approve(elecApplication);
+        return "approve";
+    }
+
+    public String approvedHistory(){
+        List<ElecApproveInfo> list = elecApplicationFlowService.findApproveInfoListByApplicationID(elecApplication);
+        request.setAttribute("approveList", list);
+        return "approvedHistory";
     }
 }

@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
 	<title>审批处理</title>
@@ -12,10 +13,10 @@
 	</script>
 </head>
 <body>
-		<form name="Form1" action="workflow/elecApplicationFlowAction_approve.do" method="post">
-			<input type="hidden" name="applicationID" value="2" />
-	    	<input type="hidden" name="taskID" value="60006" />
-	    	<input type="hidden" name="approval" value="true" id="approval"/>
+		<s:form name="Form1" namespace="workflow" action="elecApplicationFlowAction_approve.do" method="post">
+			<s:hidden name="applicationID"></s:hidden>
+			<s:hidden name="taskId"></s:hidden>
+			<s:hidden name="approval" value="true" id="approval"></s:hidden>
 			<br>
 			<table border="0" width="90%" cellspacing="1" cellpadding="0" align="center" bgcolor="#f5fafe">
 				<tr>
@@ -41,22 +42,20 @@
 				<tr>
 					<td align="center" bgColor="#f5fafe" class="ta_01" width="20%">下载申请文件</td>
 			        <td class="ta_01" bgColor="#ffffff" colspan="3">
-			        	<a id="downloadApplication" href="${pageContext.request.contextPath }/workflow/elecApplicationFlowAction_download.do?applicationID=2" style="text-decoration: underline">[点击下载申请文件]</a>
+			        	<a id="downloadApplication" href="${pageContext.request.contextPath }/workflow/elecApplicationFlowAction_download.do?applicationID=${applicationID }" style="text-decoration: underline">[点击下载申请文件]</a>
 			        </td>
 				</tr>
 					<tr>
 						<td align="center" bgColor="#f5fafe" class="ta_01" width="20%">请选择下一步：<font color="#FF0000">*</font></td>
 				        <td class="ta_01" bgColor="#ffffff" colspan="3">
-				        	<select name="outcome" id="outcome">
-							    <option value="结束">结束</option>
-							    <option value="审批[总经理]">审批[总经理]</option>
-							</select>
+							<s:select list="#request.outcome" name="outcome" id="outcome">
+							</s:select>
 				        </td>
 					</tr>
 				<tr>
 					<td align="center" bgColor="#f5fafe" class="ta_01" width="20%">审批意见：<font color="#FF0000">*</font></td>
 			        <td class="ta_01" bgColor="#ffffff" colspan="3">
-			        	<textarea name="comment" cols="52" rows="4" id="comment" style="WIDTH:95%"></textarea>
+						<s:textarea name="comment" cols="52" rows="4" id="comment" cssStyle="WIDTH:95%"></s:textarea>
 			        </td>
 				</tr>
 				<tr height=2>
@@ -76,7 +75,7 @@
 					</td>
 				</tr>
 			</table>
-		</form>
+		</s:form>
 
 </body>
 </html>

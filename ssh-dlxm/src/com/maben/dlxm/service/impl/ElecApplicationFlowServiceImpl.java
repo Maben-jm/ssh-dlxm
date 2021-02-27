@@ -6,6 +6,7 @@ import com.maben.dlxm.dao.ElecApproveInfoDao;
 import com.maben.dlxm.dao.ElecSystemDDLDao;
 import com.maben.dlxm.domain.ElecApplication;
 import com.maben.dlxm.domain.ElecApplicationTemplate;
+import com.maben.dlxm.domain.ElecApproveInfo;
 import com.maben.dlxm.domain.ElecUser;
 import com.maben.dlxm.service.ElecApplicationFlowService;
 import com.maben.dlxm.util.FileUploadUtils;
@@ -22,6 +23,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -113,6 +117,173 @@ public class ElecApplicationFlowServiceImpl implements ElecApplicationFlowServic
         return list;
     }
 
+    /**
+     * 通过登录人去JBPM拿到自己的任务并返回申请vo列表
+     * @return List<ElecApplication>
+     */
+    @Override
+    public List<ElecApplication> findMyTask() {
+        /**存放申请信息的List集合*/
+        List<ElecApplication> applicationList = new ArrayList<ElecApplication>();
+        /**1：使用当前登录名作为办理人的条件，查询JBPM的任务表，返回List<Task>*/
+        ElecUser elecUser = (ElecUser) ServletActionContext.getRequest().getSession().getAttribute("globle_user");
+        List<Task> list = processEngine.getTaskService()//
+                .createTaskQuery()//
+                .assignee(elecUser.getLogonName())//
+                .list();
+        /**2:遍历List集合，获取每个任务对象，从而获取对应每个任务的流程变量*/
+        if(list!=null && list.size()>0){
+            for(Task task:list){
+                String taskId = task.getId();
+                //使用任务ID获取流程变量
+                ProcessVariables processVariables = (ProcessVariables) processEngine.getTaskService()//
+                        .getVariable(taskId, "application");
+                //将流程变量的对象，转换成ElecApplication对象
+                ElecApplication elecApplication = this.pocessVariablesToElecApplication(processVariables);
+                //将任务ID放置到VO对象中
+                elecApplication.setTaskId(taskId);
+                applicationList.add(elecApplication);
+            }
+        }
+        return applicationList;
+    }
+
+    public Collection<String> findOutComeListByTaskId(
+            ElecApplication elecApplication) {
+        //任务ID
+        String taskId = elecApplication.getTaskId();
+        Collection<String> outcomes = processEngine.getTaskService()//
+                .getOutcomes(taskId);//获取任务后指定连线的集合
+        return outcomes;
+    }
+
+    @Override
+    public InputStream findInputStreamWithFile(ElecApplication elecApplication) {
+        //获取申请信息的ID
+        Long id = elecApplication.getApplicationID();
+        //使用申请信息ID，查询申请的详细信息，从而获取路径path
+        ElecApplication application = elecApplicationDao.findObjectById(id);
+        //获取申请标题
+        String title = application.getTitle();
+        //处理中文在xml中的显示，使用UTF-8进行编码
+        try {
+            //name = URLEncoder.encode(name, "UTF-8");
+            title = new String(title.getBytes("gbk"),"iso-8859-1");
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        //将标题放置到栈顶，用于在struts.xml文件中<param name="contentDisposition">attachment;filename="${title}.doc"</param>显示
+        elecApplication.setTitle(title);
+        //路径path
+        String path = application.getPath();
+        //使用路径path获取upload文件夹下资源文件，转换成InputStream输入流对象
+        File file = new File(path);
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        return inputStream;
+    }
+
+    @Override
+    @Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
+    public void approve(ElecApplication elecApplication) {
+        /**1：组织PO对象对象，向审核信息表添加数据*/
+        this.saveApproveInfo(elecApplication);
+        /**2：使用任务ID和选择下一步的连线名称，完成审核人的任务*/
+        String taskId = elecApplication.getTaskId();//任务ID
+        String outcome = elecApplication.getOutcome();//选则下一步的连线名称
+        /**
+         * 使用任务ID，获取当前任务的详细信息，从而获取流程实例的ID，该方法一定要放置到完成任务之前
+         */
+        Task task = processEngine.getTaskService()//
+                .getTask(taskId);//使用任务ID，获取任务的对象Task
+        processEngine.getTaskService()//
+                .completeTask(taskId, outcome);//使用任务ID和连线的名称完成任务
+        /**
+         * 判断流程实例在完成任务之后是否结束，该方法一定要放置到完成任务之后调用
+         *    * 获取流程实例对象
+         *       * 如果pi==null：说明流程已经结束了，表示当前完成的任务是最后一个活动
+         *       * 如果pi!=null：说明流程没有结束，表示当前完成的任务不是最后一个活动
+         * */
+        ProcessInstance pi = processEngine.getExecutionService()//
+                .findProcessInstanceById(task.getExecutionId());//使用流程实例ID获取流程实例对象
+        /**3：使用申请信息表的主键ID，获取申请信息，从而用于对审核状态的更新*/
+        Long applicationID = elecApplication.getApplicationID();//申请信息ID
+        ElecApplication application = elecApplicationDao.findObjectById(applicationID);
+        /**4：获取页面选择的【同意】和【不同意】的状态（approval：true/false）*/
+        boolean approval = elecApplication.isApproval();//审核状态
+        //如果同意
+        if(approval){
+            //如果当前路程结束的话，将申请信息表的状态从审核中----->审核通过
+            if(pi==null){
+                application.setStatus(application.APPLICATION_PASS);
+            }
+        }
+        //如果不同意
+        else{
+            /**
+             *  * 如果当前流程没有结束的话，强制终止流程
+             * 将审请信息表的状态从审核中----->审核不通过
+             */
+            if(pi!=null){
+                processEngine.getExecutionService()//
+                        .endProcessInstance(pi.getId(), ProcessInstance.STATE_ENDED);//强制终止流程
+            }
+            application.setStatus(application.APPLICATION_REJECT);
+        }
+    }
+
+    @Override
+    public List<ElecApproveInfo> findApproveInfoListByApplicationID(
+            ElecApplication elecApplication) {
+        //获取申请ID
+        Long applicationID = elecApplication.getApplicationID();
+        //以申请ID作为查询条件
+        String condition = " and o.applicationID = ? ";
+        Object [] params = {applicationID};
+        //按审批时间升序排列。
+        Map<String, String> orderby = new LinkedHashMap<String, String>();
+        orderby.put("o.approveTime", "asc");
+        List<ElecApproveInfo> list = elecApproveInfoDao.findCollectionByConditionNoPage(condition, params, orderby);
+        return list;
+    }
+
+    /**组织PO对象对象，向审核信息表添加数据*/
+    private void saveApproveInfo(ElecApplication elecApplication) {
+        //获取当前登录人的信息
+        ElecUser elecUser = (ElecUser) ServletActionContext.getRequest().getSession().getAttribute("globle_user");
+        //审核信息表的对象
+        ElecApproveInfo elecApproveInfo = new ElecApproveInfo();
+        //申请信息表的ID
+        elecApproveInfo.setApplicationID(elecApplication.getApplicationID());
+        //是否同意（boolean类型）
+        elecApproveInfo.setApproval(elecApplication.isApproval());
+        //审核意见
+        elecApproveInfo.setComment(elecApplication.getComment());
+        //审核人ID
+        elecApproveInfo.setApproveUserID(elecUser.getUserID());
+        //审核人姓名
+        elecApproveInfo.setApproveUserName(elecUser.getUserName());
+        //审核时间
+        elecApproveInfo.setApproveTime(new Date());
+        //执行保存
+        elecApproveInfoDao.save(elecApproveInfo);
+    }
+
+    /**将流程变量的对象，转换成ElecApplication对象*/
+    private ElecApplication pocessVariablesToElecApplication(
+            ProcessVariables processVariables) {
+        ElecApplication elecApplication = new ElecApplication();
+        try {
+            BeanUtils.copyProperties(elecApplication, processVariables);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        return elecApplication;
+    }
 
     /**完成javabean的复制，将PO对象中的属性值，设置到流程变量中*/
     private ProcessVariables copyElecApplicationToProcessVariables(ElecApplication elecApplication) {

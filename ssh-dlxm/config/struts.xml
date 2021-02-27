@@ -140,6 +140,17 @@
                 <param name="namespace">/workflow</param>
                 <param name="actionName">elecApplicationFlowAction_myApplicationHome.do</param>
             </result>
+            <result name="flowApprove">/WEB-INF/page/workflow/flowApprove.jsp</result>
+            <result name="download" type="stream">
+                <param name="contentType">doc/docx</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${title}.doc"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="approve" type="redirectAction">
+                elecApplicationFlowAction_myTaskHome.do
+            </result>
+            <result name="approvedHistory">/WEB-INF/page/workflow/flowApprovedHistory.jsp</result>
         </action>
     </package>
 </struts>

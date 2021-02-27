@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="utf-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
     <title>待我审批</title>
@@ -10,7 +11,7 @@
 </head>
 <body>
 
-		<form id="Form1" name="Form1" action="${pageContext.request.contextPath }/WEB-INF/page/workflow/flowMyTaskList.jsp" method="post" style="margin:0px;">
+		<s:form id="Form1" namespace="workflow" name="Form1" action="elecApplicationFlowAction_myTaskHome.do" method="post" style="margin:0px;">
 			<table cellspacing="1" cellpadding="0" width="90%" align="center" bgcolor="#f5fafe" border="0">
 				<TR height=10><td></td></TR>
 				<tr>
@@ -20,7 +21,7 @@
 					
 				</tr>
 		    </table>	
-		</form>
+		</s:form>
 
 
 		<form id="Form2" name="Form2" action="" method="post">
@@ -60,24 +61,28 @@
 								<td width="10%" align="center" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">审批处理</td>
 								<td width="12%" align="center" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">查看流程记录</td>
 							</tr>
+							<s:if test="#request.applicationList!=null && #request.applicationList.size()>0">
+								<s:iterator value="#request.applicationList" var="application">
 									<tr onmouseover="this.style.backgroundColor = 'white'" onmouseout="this.style.backgroundColor = '#F5FAFE';">
 										<td style="HEIGHT:22px" align="center" width="30%">
-											设备购置计划模板;_张三_2012-02-26 22:58:46
+												${application.title }
 										</td>
 										<td style="HEIGHT:22px" align="center" width="25%">
-											张三
+												${application.applicationUserName }
 										</td>
 										<td style="HEIGHT:22px" align="center" width="23%">
-											2012-02-26 22:58:46
+											<s:date name="%{#application.applyTime}" format="yyyy-MM-dd HH:mm:ss"/>
 										</td>
 										<td style="HEIGHT:22px" align="center" width="10%">
-											<a id="Form2_" href="${pageContext.request.contextPath }/WEB-INF/page/workflow/flowApprove.jsp?applicationID=2&taskID=60006"><img src="${pageContext.request.contextPath }/images/handle.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
+											<a  href="${pageContext.request.contextPath }/workflow/elecApplicationFlowAction_flowApprove.do?applicationID=${application.applicationID }&taskId=${application.taskId }"><img src="${pageContext.request.contextPath }/images/handle.gif" width="16" height="16" border="0" style="CURSOR:hand"></a>
 										</td>
 										<td style="HEIGHT:22px" align="center" width="12%">
-											<a id="Form2_" href="${pageContext.request.contextPath }/WEB-INF/page/workflow/flowApprovedHistory.jsp?applicationID=2"><img src="${pageContext.request.contextPath }/images/button_view.gif" border="0" style="CURSOR:hand"></a>
+											<a  href="${pageContext.request.contextPath }/workflow/elecApplicationFlowAction_approvedHistory.do?applicationID=${application.applicationID }"><img src="${pageContext.request.contextPath }/images/button_view.gif" border="0" style="CURSOR:hand"></a>
 										</td>
 									</tr>
-						</table>		
+								</s:iterator>
+							</s:if>
+						</table>
 					</td>
 				</tr>     
 			</TBODY>

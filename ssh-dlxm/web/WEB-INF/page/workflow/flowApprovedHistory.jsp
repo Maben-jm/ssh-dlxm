@@ -1,4 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags" %>
 <html>
 <head>
     <title>流转记录</title>
@@ -57,23 +58,25 @@
 								<td align="center" width="10%" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">是否通过</td>
 								<td width="35%" align="center" height=22 background="${pageContext.request.contextPath }/images/tablehead.jpg">审批意见</td>
 							</tr>
-							
-								
+
+							<s:if test="#request.approveList!=null && #request.approveList.size()>0">
+								<s:iterator value="#request.approveList" var="approve">
 									<tr onmouseover="this.style.backgroundColor = 'white'" onmouseout="this.style.backgroundColor = '#F5FAFE';">
 										<td style="HEIGHT:22px" align="center" width="30%">
-											李四
+												${approve.approveUserName }
 										</td>
 										<td style="HEIGHT:22px" align="center" width="25%">
-											2012-02-27 23:52:07
+												${approve.approveTime }
 										</td>
 										<td style="HEIGHT:22px" align="center" width="10%">
-											不同意
+												${approve.approval?'同意':'不同意' }
 										</td>
 										<td style="HEIGHT:22px" align="center" width="35%">
-											太贵了
+												${approve.comment }
 										</td>
 									</tr>
-								
+								</s:iterator>
+							</s:if>
 							
 						</table>		
 					</td>
