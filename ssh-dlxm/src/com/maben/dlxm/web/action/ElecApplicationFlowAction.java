@@ -34,6 +34,7 @@ public class ElecApplicationFlowAction extends BaseAction<ElecApplication> {
      * @return 重定向到「我的申请」主页
      */
     public String saveApplication(){
+        elecApplicationFlowService.saveApplication(elecApplication);
         return "saveApplication";
     }
     /**
