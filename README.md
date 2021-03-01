@@ -19,8 +19,12 @@
 > ​	前端技术：jsp
 >
 > ​	工作流: JBPM4.4(集成了hibernate3.3)
+>
+> ​    柱状图：jfreechart 技术
 
+## jfreechart
 
-
-
+> 学习jfreechart技术；
+>
+> 使用的是jfreechart-1.0.13版本，在jfreechart-1.0.13中有个demo，直接启动就能看例子；
 
